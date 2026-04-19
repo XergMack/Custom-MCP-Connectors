@@ -18,6 +18,10 @@ SRC_ROOT = Path(
 ).resolve()
 
 
+class EmptyRequest(BaseModel):
+    pass
+
+
 class GetItemRequest(BaseModel):
     item_id: str
 
@@ -79,15 +83,28 @@ def run_route(script_name: str, payload: dict[str, Any]):
 
 @app.get("/healthz")
 def healthz():
+    connector_auth_mode = os.getenv("CONNECTOR_AUTH_MODE", "ApiKey")
+
     return {
         "status": "ok",
         "service": "mcp-connector-host",
         "transport": "http",
         "routesRoot": str(ROUTES_ROOT),
         "srcRoot": str(SRC_ROOT),
+        "connectorAuthMode": connector_auth_mode,
         "baseUriConfigured": bool(os.getenv("CONNECTOR_BASE_URI")),
         "apiKeyConfigured": bool(os.getenv("CONNECTOR_API_KEY")),
+        "qboClientIdConfigured": bool(os.getenv("QBO_CLIENT_ID")),
+        "qboClientSecretConfigured": bool(os.getenv("QBO_CLIENT_SECRET")),
+        "qboRefreshTokenConfigured": bool(os.getenv("QBO_REFRESH_TOKEN")),
+        "qboRealmIdConfigured": bool(os.getenv("QBO_REALM_ID")),
+        "qboEnvironment": os.getenv("QBO_ENVIRONMENT", "Production"),
     }
+
+
+@app.post("/api/get-company-info")
+def get_company_info(req: EmptyRequest):
+    return run_route("get-company-info.ps1", req.model_dump())
 
 
 @app.post("/api/get-item")
@@ -108,5 +125,3 @@ def create_item(req: CreateItemRequest):
 @app.post("/api/update-item")
 def update_item(req: UpdateItemRequest):
     return run_route("update-item.ps1", req.model_dump())
-
-
