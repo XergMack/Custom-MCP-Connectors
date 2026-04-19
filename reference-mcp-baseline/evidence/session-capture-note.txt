@@ -1,0 +1,9 @@
+Working MCP endpoint: https://ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io/mcp
+
+Initialize status: 200
+MCP session ID returned: 99a5f8b5e08f4458990b1628fa86794d
+
+Note:
+Initialize is externally reproducible from PowerShell.
+Follow-up session replay for notifications/initialized and tools/list is not yet cleanly reproducible in this PowerShell capture flow.
+The current blocker is PowerShell-side response/error handling, not the reference connector architecture.
