@@ -1,0 +1,5 @@
+Runtime and infra artifacts copied from:
+C:\Users\matt\OneDrive - caberlink.com\ChatGPT Custom MCP Connectors\SharePoint Write MCP 1.0\apps\caberlink-write-api
+
+These files were copied as part of the reference MCP baseline capture process.
+Review and prune duplicates if multiple candidate files were copied.
