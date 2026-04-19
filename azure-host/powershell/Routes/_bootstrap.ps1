@@ -35,7 +35,7 @@ Get-ChildItem -Path $coreRoot -Filter '*.ps1' -File | Sort-Object Name | ForEach
 
 $connectorAuthMode = $env:CONNECTOR_AUTH_MODE
 if ([string]::IsNullOrWhiteSpace($connectorAuthMode)) {
-    $connectorAuthMode = 'ApiKey'
+    $connectorAuthMode = 'QuickBooksOAuth'
 }
 
 $baseUri = $env:CONNECTOR_BASE_URI
