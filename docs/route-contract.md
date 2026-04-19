@@ -2,6 +2,7 @@
 
 ## HTTP to route mapping
 
+- POST /api/get-company-info -> get-company-info.ps1
 - POST /api/get-item -> get-item.ps1
 - POST /api/search-items -> search-items.ps1
 - POST /api/create-item -> create-item.ps1
@@ -12,5 +13,3 @@
 - JSON payload in
 - JSON payload out
 - Route script only calls bootstrap + one core function
-
-
