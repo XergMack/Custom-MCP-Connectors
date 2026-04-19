@@ -12,37 +12,36 @@ Record the exact values used in ChatGPT:
 
 ### Name
 
-[REPLACE WITH WORKING CONNECTOR NAME]
+SharePoint Write MCP
 
 ### Description
 
-[REPLACE WITH WORKING DESCRIPTION]
+[REPLACE WITH EXACT WORKING DESCRIPTION]
 
 ### Authentication Mode
 
-[REPLACE WITH WORKING AUTH MODE]
+[REPLACE WITH EXACT WORKING AUTH MODE]
 
 ### MCP Server URL
 
-[REPLACE WITH EXACT WORKING MCP URL]
+https://ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io/mcp
 
 ### MCP Path Shape
 
-Document whether the working connector uses:
+The working connector uses:
 
 - `/mcp`
-- `/mcp/`
 
-and whether redirects are acceptable or should be avoided.
+This should be treated as canonical unless later evidence proves otherwise.
 
 ## Expected Write Behavior
 
 Document how write-capable tools behave in ChatGPT:
 
-- whether confirmation is required
-- whether the connector is read-only or read/write
-- whether writes are approval-gated
-- whether any fields are allowlisted
+- write-capable custom connector
+- confirmation behavior: [REPLACE WITH ACTUAL UX NOTES]
+- approval-gating: [REPLACE]
+- allowlisted operations should be documented in the tool surface below
 
 ## Session Behavior
 
@@ -51,17 +50,16 @@ Document what a successful external MCP initialize looks like.
 Capture:
 
 - expected `initialize` result shape
-- whether `mcp-session-id` is returned
-- whether follow-up requests must preserve session headers
+- `mcp-session-id` may be returned by the working endpoint
+- follow-up requests should preserve session headers when required by the runtime
 
 ## Tool Surface
 
 List the public tools exposed by the working connector.
 
-Use this format:
-
-- tool name
-- purpose
-- read or write
-- risk class
-- target-system dependency
+- get_item_metadata — read — metadata lookup
+- create_text_file — write — create content
+- update_text_file — write — replace file content
+- create_folder — write — create folder
+- move_or_rename_item — write — move or rename item
+- delete_item — write — delete item

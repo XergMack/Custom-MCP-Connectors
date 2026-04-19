@@ -1,1 +1,1 @@
-[REPLACE WITH WORKING MCP ENDPOINT]
+https://ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io/mcp
