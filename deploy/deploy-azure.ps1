@@ -12,7 +12,7 @@ param(
     [string]$ImageTag,
 
     [ValidateSet('ApiKey', 'QuickBooksOAuth')]
-    [string]$ConnectorAuthMode = 'ApiKey',
+    [string]$ConnectorAuthMode = 'QuickBooksOAuth',
 
     [string]$ConnectorSourceRoot = '/service/src/QuickBooksOnline.Mcp',
 
