@@ -6,7 +6,7 @@ param(
     [string]$AppName,
 
     [ValidateSet('ApiKey', 'QuickBooksOAuth')]
-    [string]$ConnectorAuthMode = 'ApiKey',
+    [string]$ConnectorAuthMode = 'QuickBooksOAuth',
 
     [string]$ConnectorApiKey,
 
