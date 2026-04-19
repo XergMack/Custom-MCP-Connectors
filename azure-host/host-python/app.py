@@ -83,7 +83,7 @@ def run_route(script_name: str, payload: dict[str, Any]):
 
 @app.get("/healthz")
 def healthz():
-    connector_auth_mode = os.getenv("CONNECTOR_AUTH_MODE", "ApiKey")
+    connector_auth_mode = os.getenv("CONNECTOR_AUTH_MODE", "QuickBooksOAuth")
 
     return {
         "status": "ok",
