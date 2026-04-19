@@ -14,7 +14,7 @@ ROUTES_ROOT = Path(
 ).resolve()
 
 SRC_ROOT = Path(
-    os.getenv("MCP_SRC_ROOT", "/service/src/ServiceDeskPlus.Mcp")
+    os.getenv("MCP_SRC_ROOT", "/service/src/QuickBooksOnline.Mcp")
 ).resolve()
 
 
