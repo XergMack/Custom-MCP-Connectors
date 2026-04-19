@@ -9,7 +9,7 @@ $payload = $JsonPayload | ConvertFrom-Json -AsHashtable
 
 $srcRoot = $env:MCP_SRC_ROOT
 if ([string]::IsNullOrWhiteSpace($srcRoot)) {
-    $srcRoot = "/service/src/ServiceDeskPlus.Mcp"
+    $srcRoot = "/service/src/QuickBooksOnline.Mcp"
 }
 
 if (-not (Test-Path $srcRoot)) {
