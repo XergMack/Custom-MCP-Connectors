@@ -14,7 +14,7 @@ param(
     [ValidateSet('ApiKey', 'QuickBooksOAuth')]
     [string]$ConnectorAuthMode = 'ApiKey',
 
-    [string]$ConnectorSourceRoot = '/service/src/ServiceDeskPlus.Mcp',
+    [string]$ConnectorSourceRoot = '/service/src/QuickBooksOnline.Mcp',
 
     [string]$ConnectorBaseUri,
 
