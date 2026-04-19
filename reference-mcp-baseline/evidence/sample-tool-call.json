@@ -1,1 +1,1 @@
-{ "note": "sample tool call not captured yet; replace [REPLACE_WITH_REAL_SAFE_PATH] with a real safe SharePoint path and rerun." }
+﻿{"jsonrpc":"2.0","id":3,"result":{"content":[{"type":"text","text":"Error executing tool get_request: ServiceDesk API request failed. Method=GET Uri=https://tickets.caberlink.com/api/v3/requests/74132 StatusCode=400 Body={\"response_status\":{\"status_code\":4000,\"messages\":[{\"status_code\":401,\"type\":\"failed\",\"message\":\"AuthToken in the request is invalid. Unable to authenticate.\"}],\"status\":\"failed\"}}"}],"isError":true}}
