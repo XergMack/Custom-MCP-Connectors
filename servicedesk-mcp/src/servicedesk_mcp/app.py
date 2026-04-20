@@ -31,6 +31,39 @@ def tools():
 def debug_requests():
     return asyncio.run(requests_family.list_requests())
 
+@app.get("/debug/requests/assigned-to-me")
+def debug_requests_assigned_to_me():
+    return asyncio.run(
+        requests_family.search_requests(
+            technician_name="Matthew MacKinnon",
+            status_name="Open",
+            start_index=1,
+            row_count=100
+        )
+    )
+
+@app.get("/debug/requests/search")
+def debug_requests_search(
+    technician_name: str | None = None,
+    status_name: str | None = None,
+    subject_contains: str | None = None,
+    created_after: str | None = None,
+    created_before: str | None = None,
+    start_index: int = 1,
+    row_count: int = 100,
+):
+    return asyncio.run(
+        requests_family.search_requests(
+            technician_name=technician_name,
+            status_name=status_name,
+            subject_contains=subject_contains,
+            created_after=created_after,
+            created_before=created_before,
+            start_index=start_index,
+            row_count=row_count,
+        )
+    )
+
 @app.post("/debug/requests/create")
 def debug_create_request():
     payload = {
@@ -56,14 +89,9 @@ def debug_create_note(request_id: str):
 def debug_create_worklog(request_id: str):
     payload = {
         "worklog": {
-            "owner": {
-                "name": "Matthew MacKinnon"
-            },
+            "owner": {"name": "Matthew MacKinnon"},
             "description": "Thin MCP test worklog.",
-            "time_spent": {
-                "hours": "0",
-                "minutes": "10"
-            }
+            "time_spent": {"hours": "0", "minutes": "10"}
         }
     }
     return asyncio.run(worklogs_family.add_request_worklog(request_id, payload))
