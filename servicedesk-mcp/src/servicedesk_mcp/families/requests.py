@@ -360,7 +360,7 @@ async def create_request_from_context(
         group_res = await _resolve_group(group_name, site_name=site_name)
         if not group_res.get("ok"):
             return group_res
-        payload_request["group"] = {"id": str(group_res["item"].get("id"))}
+        payload_request["group"] = {"name": group_res["item"].get("name")}
 
     if category_name:
         payload_request["category"] = {"name": category_name}
@@ -396,3 +396,4 @@ def register_tools():
         "search_requests_by_requester",
         "create_request_from_context",
     ]
+
