@@ -5,7 +5,7 @@ Status: In Progress
 ## Endpoints
 - GET /priorities
 - GET /statuses
-- GET /templates
+- GET /request_templates
 
 ## Read
 - Yes
@@ -28,4 +28,4 @@ Status: In Progress
 - list_templates
 
 ## Notes
-- Useful for deterministic ticket creation/update
+- list_templates uses request_templates

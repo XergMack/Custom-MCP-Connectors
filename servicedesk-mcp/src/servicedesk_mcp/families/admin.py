@@ -14,7 +14,7 @@ async def list_statuses(params: dict | None = None):
 
 async def list_templates(params: dict | None = None):
     client = ServiceDeskClient()
-    response = await client.get("/templates", params=params or {})
+    response = await client.get("/request_templates", params=params or {})
     return response.json()
 
 def register_tools():
