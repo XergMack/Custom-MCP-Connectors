@@ -1,34 +1,34 @@
 # assets
 
-Status: In Progress
+Status: Blocked
 
 ## Endpoints
 - GET /assets
 - GET /assets/{id}
 
 ## Read
-- Yes
+- Intended yes
+- Currently blocked in this environment
 
 ## Write
-- Supported by docs, not yet implemented here
+- Not implemented
 
 ## Query shape
-- Uses input_data.list_info for paging/filtering
-- search_criteria currently mapped for:
-  - name
-  - asset_tag
-  - serial_number
+- input_data.list_info tested
 
 ## Write shape
-- Not yet mapped in connector
+- Not yet mapped
 
 ## Required fields observed
-- None yet in live testing
+- None yet
 
 ## Known working examples
-- list_assets
-- get_asset
-- search_assets
+- None in this environment
 
 ## Notes
-- On-prem V3 assets are supported at /api/v3/assets
+- Direct call to /assets with valid auth returned:
+  - status_code 4004
+  - message "Internal Error"
+- Same failure occurred through the MCP connector
+- Conclusion: asset family is currently blocked by the ServiceDesk environment/module state, not the connector
+- Defer further asset work for now and proceed to CMDB
