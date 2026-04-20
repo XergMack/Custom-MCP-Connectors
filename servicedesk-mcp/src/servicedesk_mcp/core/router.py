@@ -10,6 +10,7 @@ TOOL_REGISTRY = {
     "get_request": requests_family.get_request,
     "create_request": requests_family.create_request,
     "update_request": requests_family.update_request,
+    "search_requests": requests_family.search_requests,
 
     "list_request_notes": notes_family.list_request_notes,
     "add_request_note": notes_family.add_request_note,
