@@ -4,27 +4,18 @@
 |---|---|---:|---:|---:|---:|---|
 | requests | In Progress | Yes | Yes | Yes | Yes | Core path proven |
 | notes | In Progress | Yes | Yes | Partial | Yes | Create proven |
-| worklogs | In Progress | Yes | Yes | Partial | Yes | Create proven after payload fixes |
+| worklogs | In Progress | Yes | Yes | Partial | Yes | Create proven |
 | tasks | In Progress | Yes | Yes | Partial | Yes | Create proven |
-| problems | Not Started | ? | ? | No | No |  |
-| changes | Not Started | ? | ? | No | No |  |
-| releases | Not Started | ? | ? | No | No |  |
-| projects | Not Started | ? | ? | No | No |  |
-| assets | Not Started | ? | ? | No | No |  |
-| cmdb | Not Started | ? | ? | No | No |  |
-| ci-relationships | Not Started | ? | ? | No | No |  |
-| contracts | Not Started | ? | ? | No | No |  |
-| purchase | Not Started | ? | ? | No | No |  |
-| billing | Not Started | ? | ? | No | No |  |
-| timesheets | Not Started | ? | ? | No | No |  |
-| solutions | Not Started | ? | ? | No | No |  |
-| topics-categories | Not Started | ? | ? | No | No |  |
-| service-catalog | Not Started | ? | ? | No | No |  |
-| customers | Not Started | ? | ? | No | No |  |
-| users-requesters | Not Started | ? | ? | No | No |  |
-| technicians | Not Started | ? | ? | No | No |  |
-| departments-groups-sites | Not Started | ? | ? | No | No |  |
-| admin-reference-data | Not Started | ? | ? | No | No |  |
-| announcements | Not Started | ? | ? | No | No |  |
-| space-facilities | Not Started | ? | ? | No | No |  |
-| custom-modules | Not Started | ? | ? | No | No |  |
+| technicians | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| users-requesters | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| departments-groups-sites | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| assets | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| cmdb | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| contracts | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| purchase | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| problems | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| changes | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| projects | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| solutions | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| catalog | Scaffolded | ? | ? | No | No | Placeholder tools only |
+| admin | Scaffolded | ? | ? | No | No | Placeholder tools only |
