@@ -168,7 +168,17 @@ async def _resolve_requester(requester_name: str) -> dict:
     }
 
 async def _resolve_technician(technician_name: str) -> dict:
-    result = await technicians_family.list_technicians()
+    result = await technicians_family.list_technicians(
+        params={
+            "input_data": {
+                "list_info": {
+                    "row_count": 200,
+                    "start_index": 1,
+                    "get_total_count": True
+                }
+            }
+        }
+    )
     techs = _extract_list(result, "technicians")
     matches = _match_by_name(techs, technician_name, "name")
 
