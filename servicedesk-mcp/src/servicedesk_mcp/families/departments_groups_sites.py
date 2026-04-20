@@ -9,7 +9,7 @@ async def list_departments(params: dict | None = None):
 
 async def list_groups(params: dict | None = None):
     client = ServiceDeskClient()
-    response = await client.get("/groups", params=params or {})
+    response = await client.get("/support_groups", params=params or {})
     return response.json()
 
 async def list_sites(params: dict | None = None):

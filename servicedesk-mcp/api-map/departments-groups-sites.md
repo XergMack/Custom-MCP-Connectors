@@ -4,7 +4,7 @@ Status: In Progress
 
 ## Endpoints
 - GET /departments
-- GET /groups
+- GET /support_groups
 - GET /sites
 - GET /sites/{id}
 
@@ -30,4 +30,4 @@ Status: In Progress
 - get_site
 
 ## Notes
-- High priority for deterministic ticket placement
+- support groups appear to be the correct V3 concept, not generic groups
