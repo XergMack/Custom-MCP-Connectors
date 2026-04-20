@@ -1,0 +1,52 @@
+[
+  {
+    "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+    "slotSetting": false,
+    "value": "false"
+  },
+  {
+    "name": "DOCKER_REGISTRY_SERVER_URL",
+    "slotSetting": false,
+    "value": "https://acrcabersd26041819147au5.azurecr.io"
+  },
+  {
+    "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+    "slotSetting": false,
+    "value": "acrcabersd26041819147au5"
+  },
+  {
+    "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "WEBSITES_PORT",
+    "slotSetting": false,
+    "value": "8000"
+  },
+  {
+    "name": "SERVICEDESK_BASE_URI",
+    "slotSetting": false,
+    "value": "https://tickets.caberlink.com/api/v3"
+  },
+  {
+    "name": "SERVICEDESK_API_KEY",
+    "slotSetting": false,
+    "value": "ADBDD300-7525-4EA6-A6F0-8ACAA851D77D"
+  },
+  {
+    "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+    "slotSetting": false,
+    "value": "3"
+  },
+  {
+    "name": "MCP_ROUTES_ROOT",
+    "slotSetting": false,
+    "value": "/service/powershell/Routes"
+  },
+  {
+    "name": "MCP_SRC_ROOT",
+    "slotSetting": false,
+    "value": "/service/src/ServiceDeskPlus.Mcp"
+  }
+]

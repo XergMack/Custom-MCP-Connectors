@@ -1,0 +1,17 @@
+[
+  {
+    "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+    "slotSetting": false,
+    "value": "true"
+  },
+  {
+    "name": "BACKEND_BASE_URL",
+    "slotSetting": false,
+    "value": "https://caberlink-sd-mcp-2604181914-7au5.azurewebsites.net"
+  },
+  {
+    "name": "PUBLIC_HOST",
+    "slotSetting": false,
+    "value": "caberlink-sd-mcp-bridge-260419044455.azurewebsites.net"
+  }
+]
