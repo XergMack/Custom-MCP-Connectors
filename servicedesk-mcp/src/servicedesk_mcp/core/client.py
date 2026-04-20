@@ -1,3 +1,4 @@
+import json
 import httpx
 from servicedesk_mcp.core.config import settings
 
@@ -7,7 +8,6 @@ class ServiceDeskClient:
         self.headers = {
             "authtoken": settings.servicedesk_api_key,
             "Accept": "application/json",
-            "Content-Type": "application/json",
         }
 
     def build_url(self, path: str) -> str:
@@ -19,8 +19,16 @@ class ServiceDeskClient:
 
     async def post(self, path: str, json_body: dict):
         async with httpx.AsyncClient(timeout=60) as client:
-            return await client.post(self.build_url(path), headers=self.headers, json=json_body)
+            return await client.post(
+                self.build_url(path),
+                headers=self.headers,
+                data={"input_data": json.dumps(json_body)}
+            )
 
     async def put(self, path: str, json_body: dict):
         async with httpx.AsyncClient(timeout=60) as client:
-            return await client.put(self.build_url(path), headers=self.headers, json=json_body)
+            return await client.put(
+                self.build_url(path),
+                headers=self.headers,
+                data={"input_data": json.dumps(json_body)}
+            )
