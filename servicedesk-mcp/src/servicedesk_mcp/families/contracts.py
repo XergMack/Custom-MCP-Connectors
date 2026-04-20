@@ -1,18 +1,16 @@
+from servicedesk_mcp.core.client import ServiceDeskClient
+
 FAMILY_NAME = "contracts"
 
-async def _not_implemented(tool_name: str, arguments: dict | None = None):
-    return {
-        "ok": False,
-        "error": "Not implemented yet",
-        "family": FAMILY_NAME,
-        "tool_name": tool_name,
-        "arguments": arguments or {}
-    }
+async def list_contracts(params: dict | None = None):
+    client = ServiceDeskClient()
+    response = await client.get("/contracts", params=params or {})
+    return response.json()
 
-async def list_contracts(**kwargs):
-    return await _not_implemented("list_contracts", kwargs)
-async def get_contract(**kwargs):
-    return await _not_implemented("get_contract", kwargs)
+async def get_contract(contract_id: str):
+    client = ServiceDeskClient()
+    response = await client.get(f"/contracts/{contract_id}")
+    return response.json()
 
 def register_tools():
     return [

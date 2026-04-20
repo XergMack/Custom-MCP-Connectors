@@ -1,18 +1,16 @@
+from servicedesk_mcp.core.client import ServiceDeskClient
+
 FAMILY_NAME = "purchase"
 
-async def _not_implemented(tool_name: str, arguments: dict | None = None):
-    return {
-        "ok": False,
-        "error": "Not implemented yet",
-        "family": FAMILY_NAME,
-        "tool_name": tool_name,
-        "arguments": arguments or {}
-    }
+async def list_purchase_orders(params: dict | None = None):
+    client = ServiceDeskClient()
+    response = await client.get("/purchase_orders", params=params or {})
+    return response.json()
 
-async def list_purchase_orders(**kwargs):
-    return await _not_implemented("list_purchase_orders", kwargs)
-async def get_purchase_order(**kwargs):
-    return await _not_implemented("get_purchase_order", kwargs)
+async def get_purchase_order(purchase_order_id: str):
+    client = ServiceDeskClient()
+    response = await client.get(f"/purchase_orders/{purchase_order_id}")
+    return response.json()
 
 def register_tools():
     return [

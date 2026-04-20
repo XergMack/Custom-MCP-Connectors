@@ -1,20 +1,21 @@
+from servicedesk_mcp.core.client import ServiceDeskClient
+
 FAMILY_NAME = "admin"
 
-async def _not_implemented(tool_name: str, arguments: dict | None = None):
-    return {
-        "ok": False,
-        "error": "Not implemented yet",
-        "family": FAMILY_NAME,
-        "tool_name": tool_name,
-        "arguments": arguments or {}
-    }
+async def list_priorities(params: dict | None = None):
+    client = ServiceDeskClient()
+    response = await client.get("/priorities", params=params or {})
+    return response.json()
 
-async def list_priorities(**kwargs):
-    return await _not_implemented("list_priorities", kwargs)
-async def list_statuses(**kwargs):
-    return await _not_implemented("list_statuses", kwargs)
-async def list_templates(**kwargs):
-    return await _not_implemented("list_templates", kwargs)
+async def list_statuses(params: dict | None = None):
+    client = ServiceDeskClient()
+    response = await client.get("/statuses", params=params or {})
+    return response.json()
+
+async def list_templates(params: dict | None = None):
+    client = ServiceDeskClient()
+    response = await client.get("/templates", params=params or {})
+    return response.json()
 
 def register_tools():
     return [
