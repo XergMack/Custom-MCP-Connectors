@@ -1,9 +1,10 @@
-from fastapi import FastAPI
+﻿from fastapi import FastAPI
 from servicedesk_mcp.core.config import settings
 from servicedesk_mcp.families import requests as requests_family
 from servicedesk_mcp.families import notes as notes_family
 from servicedesk_mcp.families import worklogs as worklogs_family
 from servicedesk_mcp.families import tasks as tasks_family
+import asyncio
 
 app = FastAPI(title="ServiceDesk MCP", version="0.1.0")
 
@@ -30,6 +31,10 @@ def tools():
         }
     }
 
+@app.get("/debug/requests")
+def debug_requests():
+    return asyncio.run(requests_family.list_requests())
+
 @app.post("/mcp")
 def mcp_placeholder():
     return {
@@ -40,5 +45,5 @@ def mcp_placeholder():
             "worklogs": worklogs_family.register_tools(),
             "tasks": tasks_family.register_tools(),
         },
-        "next_step": "Run local test, then implement reference/admin families"
+        "next_step": "Test live ServiceDesk request reads"
     }
