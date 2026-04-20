@@ -56,6 +56,9 @@ def debug_create_note(request_id: str):
 def debug_create_worklog(request_id: str):
     payload = {
         "worklog": {
+            "owner": {
+                "name": "Matthew MacKinnon"
+            },
             "description": "Thin MCP test worklog.",
             "time_spent": {
                 "hours": "0",
