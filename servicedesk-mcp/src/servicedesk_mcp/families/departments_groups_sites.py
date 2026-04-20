@@ -20,8 +20,8 @@ async def get_site(**kwargs):
 
 def register_tools():
     return [
-    "list_departments",
-    "list_groups",
-    "list_sites",
-    "get_site",
+        "list_departments",
+        "list_groups",
+        "list_sites",
+        "get_site",
     ]

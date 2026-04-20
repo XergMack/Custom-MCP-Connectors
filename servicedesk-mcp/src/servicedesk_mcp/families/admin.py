@@ -18,7 +18,7 @@ async def list_templates(**kwargs):
 
 def register_tools():
     return [
-    "list_priorities",
-    "list_statuses",
-    "list_templates",
+        "list_priorities",
+        "list_statuses",
+        "list_templates",
     ]

@@ -16,6 +16,6 @@ async def get_technician(**kwargs):
 
 def register_tools():
     return [
-    "list_technicians",
-    "get_technician",
+        "list_technicians",
+        "get_technician",
     ]

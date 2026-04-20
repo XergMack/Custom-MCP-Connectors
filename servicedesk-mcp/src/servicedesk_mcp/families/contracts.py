@@ -16,6 +16,6 @@ async def get_contract(**kwargs):
 
 def register_tools():
     return [
-    "list_contracts",
-    "get_contract",
+        "list_contracts",
+        "get_contract",
     ]

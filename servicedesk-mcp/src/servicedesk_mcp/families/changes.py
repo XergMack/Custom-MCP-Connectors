@@ -16,6 +16,6 @@ async def get_change(**kwargs):
 
 def register_tools():
     return [
-    "list_changes",
-    "get_change",
+        "list_changes",
+        "get_change",
     ]

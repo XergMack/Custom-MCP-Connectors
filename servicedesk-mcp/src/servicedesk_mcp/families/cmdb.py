@@ -18,7 +18,7 @@ async def search_cis(**kwargs):
 
 def register_tools():
     return [
-    "list_cis",
-    "get_ci",
-    "search_cis",
+        "list_cis",
+        "get_ci",
+        "search_cis",
     ]

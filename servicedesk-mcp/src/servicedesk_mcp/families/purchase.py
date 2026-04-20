@@ -16,6 +16,6 @@ async def get_purchase_order(**kwargs):
 
 def register_tools():
     return [
-    "list_purchase_orders",
-    "get_purchase_order",
+        "list_purchase_orders",
+        "get_purchase_order",
     ]

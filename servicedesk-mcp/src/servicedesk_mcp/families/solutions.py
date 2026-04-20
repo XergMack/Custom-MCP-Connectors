@@ -18,7 +18,7 @@ async def search_solutions(**kwargs):
 
 def register_tools():
     return [
-    "list_solutions",
-    "get_solution",
-    "search_solutions",
+        "list_solutions",
+        "get_solution",
+        "search_solutions",
     ]

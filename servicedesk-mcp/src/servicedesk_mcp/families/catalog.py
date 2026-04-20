@@ -16,6 +16,6 @@ async def get_service_template(**kwargs):
 
 def register_tools():
     return [
-    "list_service_templates",
-    "get_service_template",
+        "list_service_templates",
+        "get_service_template",
     ]

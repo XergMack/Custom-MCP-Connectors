@@ -18,7 +18,7 @@ async def search_assets(**kwargs):
 
 def register_tools():
     return [
-    "list_assets",
-    "get_asset",
-    "search_assets",
+        "list_assets",
+        "get_asset",
+        "search_assets",
     ]

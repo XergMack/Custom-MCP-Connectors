@@ -18,7 +18,7 @@ async def search_requesters(**kwargs):
 
 def register_tools():
     return [
-    "list_requesters",
-    "get_requester",
-    "search_requesters",
+        "list_requesters",
+        "get_requester",
+        "search_requesters",
     ]
