@@ -5,7 +5,7 @@ class ServiceDeskClient:
     def __init__(self) -> None:
         self.base_uri = settings.servicedesk_base_uri.rstrip("/")
         self.headers = {
-            "TECHNICIAN_KEY": settings.servicedesk_api_key,
+            "authtoken": settings.servicedesk_api_key,
             "Accept": "application/json",
             "Content-Type": "application/json",
         }
