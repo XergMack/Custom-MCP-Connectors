@@ -2,9 +2,9 @@ from servicedesk_mcp.core.client import ServiceDeskClient
 
 FAMILY_NAME = "technicians"
 
-async def list_technicians():
+async def list_technicians(params: dict | None = None):
     client = ServiceDeskClient()
-    response = await client.get("/technicians")
+    response = await client.get("/technicians", params=params or {})
     return response.json()
 
 async def get_technician(technician_id: str):
