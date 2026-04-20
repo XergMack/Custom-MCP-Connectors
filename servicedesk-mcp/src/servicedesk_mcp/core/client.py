@@ -14,8 +14,12 @@ class ServiceDeskClient:
         return f"{self.base_uri}/{path.lstrip('/')}"
 
     async def get(self, path: str, params: dict | None = None):
+        query_params = params or {}
+        if "input_data" in query_params and isinstance(query_params["input_data"], dict):
+            query_params["input_data"] = json.dumps(query_params["input_data"])
+
         async with httpx.AsyncClient(timeout=60) as client:
-            return await client.get(self.build_url(path), headers=self.headers, params=params)
+            return await client.get(self.build_url(path), headers=self.headers, params=query_params)
 
     async def post(self, path: str, json_body: dict):
         async with httpx.AsyncClient(timeout=60) as client:
