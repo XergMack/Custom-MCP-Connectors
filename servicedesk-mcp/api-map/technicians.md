@@ -1,6 +1,6 @@
 # technicians
 
-Status: Not Started
+Status: In Progress
 
 ## Endpoints
 
@@ -17,3 +17,4 @@ Status: Not Started
 ## Known working examples
 
 ## Notes
+- high priority family for assignment/routing

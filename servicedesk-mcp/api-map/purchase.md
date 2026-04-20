@@ -1,6 +1,6 @@
 # purchase
 
-Status: Not Started
+Status: In Progress
 
 ## Endpoints
 
@@ -17,3 +17,4 @@ Status: Not Started
 ## Known working examples
 
 ## Notes
+- important for procurement workflows
