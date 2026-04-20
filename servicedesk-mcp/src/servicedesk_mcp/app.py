@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import Any
-import traceback
 
 from servicedesk_mcp.core.config import settings
 from servicedesk_mcp.core.router import call_tool, list_tools
@@ -30,20 +29,10 @@ def tools():
 
 @app.post("/mcp")
 async def mcp_call(request: MCPToolRequest):
-    try:
-        result = await call_tool(request.tool_name, request.arguments)
-        return {
-            "ok": True if not (isinstance(result, dict) and result.get("ok") is False) else False,
-            "tool_name": request.tool_name,
-            "arguments": request.arguments,
-            "result": result,
-        }
-    except Exception as e:
-        return {
-            "ok": False,
-            "tool_name": request.tool_name,
-            "arguments": request.arguments,
-            "error_type": type(e).__name__,
-            "error": str(e),
-            "traceback": traceback.format_exc(),
-        }
+    result = await call_tool(request.tool_name, request.arguments)
+    return {
+        "ok": True if not (isinstance(result, dict) and result.get("ok") is False) else False,
+        "tool_name": request.tool_name,
+        "arguments": request.arguments,
+        "result": result,
+    }

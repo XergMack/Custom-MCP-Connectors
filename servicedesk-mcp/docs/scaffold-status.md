@@ -31,6 +31,7 @@
 - Do not promote a family to Working until live-tested through the MCP router
 - Mark license or environment blocks explicitly
 - Prefer deterministic tools over vague model-side filtering
+- For request creation in this environment, support group must be treated as a post-create concern
 
 ## Next Practical Use
 Use the current proven connector surface for deterministic ticket workflows:

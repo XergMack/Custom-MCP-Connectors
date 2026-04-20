@@ -332,35 +332,49 @@ async def create_request_from_context(
         }
     }
 
+    resolved_site = None
+    resolved_priority = None
+    resolved_status = None
+    resolved_technician = None
+    resolved_group = None
+
     if site_name:
         site_res = await _resolve_site(site_name)
         if not site_res.get("ok"):
             return site_res
         payload_request["site"] = {"id": str(site_res["item"].get("id"))}
+        resolved_site = {"id": str(site_res["item"].get("id")), "name": site_res["item"].get("name")}
 
     if priority_name:
         priority_res = await _resolve_priority(priority_name)
         if not priority_res.get("ok"):
             return priority_res
         payload_request["priority"] = {"id": str(priority_res["item"].get("id"))}
+        resolved_priority = {"id": str(priority_res["item"].get("id")), "name": priority_res["item"].get("name")}
 
     if status_name:
         status_res = await _resolve_status(status_name)
         if not status_res.get("ok"):
             return status_res
         payload_request["status"] = {"id": str(status_res["item"].get("id"))}
+        resolved_status = {"id": str(status_res["item"].get("id")), "name": status_res["item"].get("name")}
 
     if technician_name:
         technician_res = await _resolve_technician(technician_name)
         if not technician_res.get("ok"):
             return technician_res
         payload_request["technician"] = {"id": str(technician_res["item"].get("id"))}
+        resolved_technician = {"id": str(technician_res["item"].get("id")), "name": technician_res["item"].get("name")}
 
     if group_name:
         group_res = await _resolve_group(group_name, site_name=site_name)
         if not group_res.get("ok"):
             return group_res
-        payload_request["group"] = {"name": group_res["item"].get("name")}
+        resolved_group = {
+            "id": str(group_res["item"].get("id")),
+            "name": group_res["item"].get("name"),
+            "site": (group_res["item"].get("site") or {}).get("name")
+        }
 
     if category_name:
         payload_request["category"] = {"name": category_name}
@@ -368,19 +382,28 @@ async def create_request_from_context(
     final_payload = {"request": payload_request}
     created = await create_request(final_payload)
 
+    deferred_actions = []
+    if resolved_group:
+        deferred_actions.append({
+            "action": "assign_group_post_create",
+            "reason": "ServiceDesk request create rejects group in create payload in this environment",
+            "group": resolved_group
+        })
+
     return {
         "ok": True,
         "resolved": {
             "requester": {"id": requester_res["item"].get("id"), "name": requester_res["item"].get("name")},
-            "template": {"id": template_res["item"].get("id"), "name": template_res["item"].get("name")},
-            "site": payload_request.get("site"),
-            "priority": payload_request.get("priority"),
-            "status": payload_request.get("status"),
-            "technician": payload_request.get("technician"),
-            "group": payload_request.get("group"),
+            "template": {"id": str(template_res["item"].get("id")), "name": template_res["item"].get("name")},
+            "site": resolved_site,
+            "priority": resolved_priority,
+            "status": resolved_status,
+            "technician": resolved_technician,
+            "group": resolved_group,
             "category": payload_request.get("category"),
         },
         "payload": final_payload,
+        "deferred_actions": deferred_actions,
         "created": created,
     }
 
@@ -396,4 +419,3 @@ def register_tools():
         "search_requests_by_requester",
         "create_request_from_context",
     ]
-

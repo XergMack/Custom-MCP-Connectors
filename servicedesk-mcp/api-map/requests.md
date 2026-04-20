@@ -1,6 +1,6 @@
 # requests
 
-Status: In Progress
+Status: Working
 
 ## Endpoints
 - GET /requests
@@ -15,28 +15,39 @@ Status: In Progress
 - Yes
 
 ## Query shape
-- list requests uses input_data.list_info for paging/filtering
-- proven working:
-  - row_count
-  - start_index
-  - get_total_count
-  - search_criteria
+- Uses input_data.list_info for paging/filtering
+- search_criteria currently mapped for:
+  - technician.name
+  - status.name
+  - subject
+  - requester.name
 
 ## Write shape
-- POST/PUT use form field: input_data
-- input_data contains JSON body
+- Deterministic context create is implemented
+- create_request_from_context resolves:
+  - requester
+  - template
+  - site
+  - priority
+  - status
+  - technician
+  - support group
+- In this environment, support group is resolved but omitted from initial create payload
+- Group should be handled as a deferred post-create action
 
 ## Required fields observed
-- create request requires requester
-- update request works with request payload wrapper
+- subject
+- description
+- requester
 
 ## Known working examples
-- list requests
-- get request
-- create request
-- update request
-- assigned-to-me search with search_criteria
+- list_requests
+- get_request
+- create_request
+- update_request
+- search_requests
+- create_request_from_context
 
 ## Notes
-- top-level start_index was rejected
-- input_data.list_info worked
+- Default template fallback uses "Default Request"
+- Site-aware support group resolution is implemented

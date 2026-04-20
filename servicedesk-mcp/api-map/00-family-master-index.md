@@ -2,7 +2,7 @@
 
 | Family | Status | Read | Write | Docs Checked | Live Tested | Notes |
 |---|---|---:|---:|---:|---:|---|
-| requests | Working | Yes | Yes | Yes | Yes | Core CRUD + deterministic search + convenience tools proven |
+| requests | Working | Yes | Yes | Yes | Yes | Core CRUD + deterministic search + create_request_from_context proven |
 | notes | Working | Yes | Yes | Partial | Yes | Add note proven |
 | worklogs | Working | Yes | Yes | Partial | Yes | Add worklog proven |
 | tasks | Working | Yes | Yes | Partial | Yes | Add task proven |
