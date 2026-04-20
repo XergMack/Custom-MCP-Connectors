@@ -1,9 +1,7 @@
 # ServiceDesk MCP Family Scope Matrix
 
 ## Purpose
-This document defines the read/write family scope for the rebuilt ServiceDesk MCP connector.
-
-The goal is to support broad test-environment coverage first, then tighten scope later for production if needed.
+Define the read/write family scope for the rebuilt ServiceDesk MCP connector.
 
 ## Matrix
 
@@ -22,8 +20,8 @@ The goal is to support broad test-environment coverage first, then tighten scope
 | CI Relationships | Yes | Yes |  | Yes | Good later if CMDB is mature |
 | Contracts | Yes | Yes | Yes |  | Important for renewals/lifecycle |
 | Purchase / PO | Yes | Yes | Yes |  | Important for procurement flow |
-| Billing | Yes | Yes |  | Yes | Likely later unless you actively use it there |
-| Timesheets | Yes | Yes |  | Yes | Later unless strongly needed now |
+| Billing | Yes | Yes |  | Yes | Later unless strongly needed |
+| Timesheets | Yes | Yes |  | Yes | Later unless strongly needed |
 | Solutions / Knowledge Base | Yes | Yes | Yes |  | Good for internal knowledge/testing |
 | Topics / Categories | Yes | Yes |  | Yes | Reference/admin-heavy |
 | Service Catalog / Service Requests | Yes | Yes | Yes |  | Important if templates/catalog are central |
@@ -33,8 +31,8 @@ The goal is to support broad test-environment coverage first, then tighten scope
 | Departments / Groups / Sites | Yes | Yes | Yes |  | Useful for reference/admin control |
 | Admin Reference Data | Yes | Limited | Yes |  | Read broadly; write carefully |
 | Announcements | Yes | Yes |  | Yes | Nice to have |
-| Space / Campus / Building / Floor / Room | Yes | Yes |  | Yes | Only if you use facilities data |
-| Custom Modules | Yes | Yes |  | Yes | Depends on your implementation |
+| Space / Campus / Building / Floor / Room | Yes | Yes |  | Yes | Only if used |
+| Custom Modules | Yes | Yes |  | Yes | Depends on implementation |
 
 ## Recommended rebuilt ServiceDesk MCP scope
 

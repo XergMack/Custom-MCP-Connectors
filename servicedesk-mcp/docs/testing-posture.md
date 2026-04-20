@@ -1,9 +1,9 @@
 # ServiceDesk MCP Testing Posture
 
 ## Purpose
-This document defines the testing-environment posture for the rebuilt ServiceDesk MCP connector.
+Define the testing-environment posture for the rebuilt ServiceDesk MCP connector.
 
-## Testing doctrine
+## Testing Doctrine
 - Full read access
 - Full write access
 - All available API families included
