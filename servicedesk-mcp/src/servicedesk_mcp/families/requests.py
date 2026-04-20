@@ -1,4 +1,8 @@
 from servicedesk_mcp.core.client import ServiceDeskClient
+from servicedesk_mcp.families import users_requesters as requesters_family
+from servicedesk_mcp.families import technicians as technicians_family
+from servicedesk_mcp.families import departments_groups_sites as dgs_family
+from servicedesk_mcp.families import admin as admin_family
 
 FAMILY_NAME = "requests"
 
@@ -124,6 +128,242 @@ async def search_requests_by_requester(
         row_count=row_count,
     )
 
+def _normalize(s: str | None) -> str:
+    return (s or "").strip().lower()
+
+def _is_default_template_name(s: str | None) -> bool:
+    return _normalize(s) in ("", "default", "default request")
+
+def _extract_list(result: dict, key: str) -> list:
+    value = result.get(key, [])
+    return value if isinstance(value, list) else []
+
+def _match_by_name(items: list, target_name: str, field_name: str = "name") -> list:
+    target = _normalize(target_name)
+    exact = [x for x in items if _normalize(x.get(field_name)) == target]
+    if exact:
+        return exact
+    contains = [x for x in items if target in _normalize(x.get(field_name))]
+    return contains
+
+async def _resolve_requester(requester_name: str) -> dict:
+    result = await requesters_family.search_requesters(
+        name_contains=requester_name,
+        start_index=1,
+        row_count=50,
+    )
+    users = _extract_list(result, "users")
+    matches = _match_by_name(users, requester_name, "name")
+
+    if len(matches) == 1:
+        return {"ok": True, "item": matches[0]}
+
+    if len(matches) == 0:
+        return {"ok": False, "error": f"Requester not found: {requester_name}"}
+
+    return {
+        "ok": False,
+        "error": f"Requester is ambiguous: {requester_name}",
+        "matches": [{"id": x.get("id"), "name": x.get("name"), "email_id": x.get("email_id")} for x in matches[:10]]
+    }
+
+async def _resolve_technician(technician_name: str) -> dict:
+    result = await technicians_family.list_technicians()
+    techs = _extract_list(result, "technicians")
+    matches = _match_by_name(techs, technician_name, "name")
+
+    if len(matches) == 1:
+        return {"ok": True, "item": matches[0]}
+
+    if len(matches) == 0:
+        return {"ok": False, "error": f"Technician not found: {technician_name}"}
+
+    return {
+        "ok": False,
+        "error": f"Technician is ambiguous: {technician_name}",
+        "matches": [{"id": x.get("id"), "name": x.get("name")} for x in matches[:10]]
+    }
+
+async def _resolve_site(site_name: str) -> dict:
+    result = await dgs_family.list_sites()
+    sites = _extract_list(result, "sites")
+    matches = _match_by_name(sites, site_name, "name")
+
+    if len(matches) == 1:
+        return {"ok": True, "item": matches[0]}
+
+    if len(matches) == 0:
+        return {"ok": False, "error": f"Site not found: {site_name}"}
+
+    return {
+        "ok": False,
+        "error": f"Site is ambiguous: {site_name}",
+        "matches": [{"id": x.get("id"), "name": x.get("name")} for x in matches[:10]]
+    }
+
+async def _resolve_group(group_name: str) -> dict:
+    result = await dgs_family.list_groups()
+    groups = _extract_list(result, "support_groups")
+    matches = _match_by_name(groups, group_name, "name")
+
+    if len(matches) == 1:
+        return {"ok": True, "item": matches[0]}
+
+    if len(matches) == 0:
+        return {"ok": False, "error": f"Support group not found: {group_name}"}
+
+    return {
+        "ok": False,
+        "error": f"Support group is ambiguous: {group_name}",
+        "matches": [{"id": x.get("id"), "name": x.get("name"), "site": (x.get("site") or {}).get("name")} for x in matches[:10]]
+    }
+
+async def _resolve_priority(priority_name: str) -> dict:
+    result = await admin_family.list_priorities()
+    priorities = _extract_list(result, "priorities")
+    matches = _match_by_name(priorities, priority_name, "name")
+
+    if len(matches) == 1:
+        return {"ok": True, "item": matches[0]}
+
+    if len(matches) == 0:
+        return {"ok": False, "error": f"Priority not found: {priority_name}"}
+
+    return {
+        "ok": False,
+        "error": f"Priority is ambiguous: {priority_name}",
+        "matches": [{"id": x.get("id"), "name": x.get("name")} for x in matches[:10]]
+    }
+
+async def _resolve_status(status_name: str) -> dict:
+    result = await admin_family.list_statuses()
+    statuses = _extract_list(result, "statuses")
+    matches = _match_by_name(statuses, status_name, "name")
+
+    if len(matches) == 1:
+        return {"ok": True, "item": matches[0]}
+
+    if len(matches) == 0:
+        return {"ok": False, "error": f"Status not found: {status_name}"}
+
+    return {
+        "ok": False,
+        "error": f"Status is ambiguous: {status_name}",
+        "matches": [{"id": x.get("id"), "name": x.get("name")} for x in matches[:10]]
+    }
+
+async def _resolve_template(template_name: str | None) -> dict:
+    result = await admin_family.list_templates()
+    templates = _extract_list(result, "request_templates")
+    target_name = "Default Request" if _is_default_template_name(template_name) else template_name
+    matches = _match_by_name(templates, target_name, "name")
+
+    if len(matches) == 1:
+        return {"ok": True, "item": matches[0]}
+
+    if len(matches) == 0:
+        return {"ok": False, "error": f"Request template not found: {target_name}"}
+
+    return {
+        "ok": False,
+        "error": f"Request template is ambiguous: {target_name}",
+        "matches": [{"id": x.get("id"), "name": x.get("name")} for x in matches[:10]]
+    }
+
+async def create_request_from_context(
+    subject: str,
+    description: str,
+    requester_name: str,
+    template_name: str | None = None,
+    site_name: str | None = None,
+    priority_name: str | None = None,
+    status_name: str | None = None,
+    technician_name: str | None = None,
+    group_name: str | None = None,
+    category_name: str | None = None,
+):
+    validation_errors = []
+    if not subject or not subject.strip():
+        validation_errors.append("subject is required")
+    if not description or not description.strip():
+        validation_errors.append("description is required")
+    if not requester_name or not requester_name.strip():
+        validation_errors.append("requester_name is required")
+
+    if validation_errors:
+        return {"ok": False, "error": "Validation failed", "details": validation_errors}
+
+    requester_res = await _resolve_requester(requester_name)
+    if not requester_res.get("ok"):
+        return requester_res
+
+    template_res = await _resolve_template(template_name)
+    if not template_res.get("ok"):
+        return template_res
+
+    payload_request = {
+        "subject": subject,
+        "description": description,
+        "requester": {
+            "name": requester_res["item"].get("name")
+        },
+        "template": {
+            "id": str(template_res["item"].get("id"))
+        }
+    }
+
+    if site_name:
+        site_res = await _resolve_site(site_name)
+        if not site_res.get("ok"):
+            return site_res
+        payload_request["site"] = {"id": str(site_res["item"].get("id"))}
+
+    if priority_name:
+        priority_res = await _resolve_priority(priority_name)
+        if not priority_res.get("ok"):
+            return priority_res
+        payload_request["priority"] = {"id": str(priority_res["item"].get("id"))}
+
+    if status_name:
+        status_res = await _resolve_status(status_name)
+        if not status_res.get("ok"):
+            return status_res
+        payload_request["status"] = {"id": str(status_res["item"].get("id"))}
+
+    if technician_name:
+        technician_res = await _resolve_technician(technician_name)
+        if not technician_res.get("ok"):
+            return technician_res
+        payload_request["technician"] = {"id": str(technician_res["item"].get("id"))}
+
+    if group_name:
+        group_res = await _resolve_group(group_name)
+        if not group_res.get("ok"):
+            return group_res
+        payload_request["group"] = {"id": str(group_res["item"].get("id"))}
+
+    if category_name:
+        payload_request["category"] = {"name": category_name}
+
+    final_payload = {"request": payload_request}
+    created = await create_request(final_payload)
+
+    return {
+        "ok": True,
+        "resolved": {
+            "requester": {"id": requester_res["item"].get("id"), "name": requester_res["item"].get("name")},
+            "template": {"id": template_res["item"].get("id"), "name": template_res["item"].get("name")},
+            "site": payload_request.get("site"),
+            "priority": payload_request.get("priority"),
+            "status": payload_request.get("status"),
+            "technician": payload_request.get("technician"),
+            "group": payload_request.get("group"),
+            "category": payload_request.get("category"),
+        },
+        "payload": final_payload,
+        "created": created,
+    }
+
 def register_tools():
     return [
         "list_requests",
@@ -134,4 +374,5 @@ def register_tools():
         "get_my_open_requests",
         "search_requests_by_subject",
         "search_requests_by_requester",
+        "create_request_from_context",
     ]
