@@ -1,0 +1,57 @@
+[
+  {
+    "id": "/subscriptions/8eb1dbee-a6f3-44b4-9df4-9766109f1ffa/resourceGroups/rg-caberlink-write-api-prod/providers/Microsoft.App/containerApps/ca-caberlink-write-api-mcp/revisions/ca-caberlink-write-api-mcp--0000005",
+    "name": "ca-caberlink-write-api-mcp--0000005",
+    "properties": {
+      "active": true,
+      "createdTime": "2026-04-16T20:03:19+00:00",
+      "fqdn": "ca-caberlink-write-api-mcp--0000005.wonderfulfield-3f700329.eastus.azurecontainerapps.io",
+      "healthState": "Healthy",
+      "provisioningState": "Provisioned",
+      "replicas": 1,
+      "runningState": "Running",
+      "template": {
+        "containers": [
+          {
+            "env": [
+              {
+                "name": "CABERLINK_SITE_ID",
+                "value": "caberlink0.sharepoint.com,a8f44971-1e49-4305-b361-cbb951faf944,0815b961-6aea-44cf-96fc-1da7bdef85d5"
+              },
+              {
+                "name": "CABERLINK_DRIVE_ID",
+                "value": "b!cUn0qEkeBUOzYcu5Ufr5RGG5FQjqas9Elvwdp73vhdXBqkCz6JNgSou1I71JKPkb"
+              },
+              {
+                "name": "CABERLINK_GRAPH_ACCESS_TOKEN",
+                "value": ""
+              }
+            ],
+            "image": "acrcaberlinkwriteapi01.azurecr.io/caberlink-write-api-mcp:mi-fix-01",
+            "name": "ca-caberlink-write-api-mcp",
+            "probes": [],
+            "resources": {
+              "cpu": 0.5,
+              "memory": "1Gi"
+            }
+          }
+        ],
+        "initContainers": null,
+        "revisionSuffix": null,
+        "scale": {
+          "cooldownPeriod": null,
+          "maxReplicas": 10,
+          "minReplicas": 1,
+          "pollingInterval": null,
+          "rules": null
+        },
+        "serviceBinds": null,
+        "terminationGracePeriodSeconds": null,
+        "volumes": null
+      },
+      "trafficWeight": 100
+    },
+    "resourceGroup": "rg-caberlink-write-api-prod",
+    "type": "Microsoft.App/containerapps/revisions"
+  }
+]
