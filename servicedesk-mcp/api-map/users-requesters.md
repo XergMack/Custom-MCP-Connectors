@@ -3,8 +3,8 @@
 Status: In Progress
 
 ## Endpoints
-- GET /requesters
-- GET /requesters/{id}
+- GET /users
+- GET /users/{id}
 
 ## Read
 - Yes
@@ -30,4 +30,4 @@ Status: In Progress
 - search_requesters
 
 ## Notes
-- High priority for requester resolution
+- On-prem V3 maps Requester/User to /api/v3/users

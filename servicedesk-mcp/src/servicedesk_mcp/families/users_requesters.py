@@ -4,12 +4,12 @@ FAMILY_NAME = "users_requesters"
 
 async def list_requesters(params: dict | None = None):
     client = ServiceDeskClient()
-    response = await client.get("/requesters", params=params or {})
+    response = await client.get("/users", params=params or {})
     return response.json()
 
 async def get_requester(requester_id: str):
     client = ServiceDeskClient()
-    response = await client.get(f"/requesters/{requester_id}")
+    response = await client.get(f"/users/{requester_id}")
     return response.json()
 
 async def search_requesters(
