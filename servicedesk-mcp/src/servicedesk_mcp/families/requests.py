@@ -211,10 +211,20 @@ async def _resolve_site(site_name: str) -> dict:
         "matches": [{"id": x.get("id"), "name": x.get("name")} for x in matches[:10]]
     }
 
-async def _resolve_group(group_name: str) -> dict:
+async def _resolve_group(group_name: str, site_name: str | None = None) -> dict:
     result = await dgs_family.list_groups()
     groups = _extract_list(result, "support_groups")
     matches = _match_by_name(groups, group_name, "name")
+
+    if site_name and matches:
+        site_filtered = [
+            x for x in matches
+            if _normalize((x.get("site") or {}).get("name")) == _normalize(site_name)
+        ]
+        if len(site_filtered) == 1:
+            return {"ok": True, "item": site_filtered[0]}
+        if len(site_filtered) > 1:
+            matches = site_filtered
 
     if len(matches) == 1:
         return {"ok": True, "item": matches[0]}
@@ -347,7 +357,7 @@ async def create_request_from_context(
         payload_request["technician"] = {"id": str(technician_res["item"].get("id"))}
 
     if group_name:
-        group_res = await _resolve_group(group_name)
+        group_res = await _resolve_group(group_name, site_name=site_name)
         if not group_res.get("ok"):
             return group_res
         payload_request["group"] = {"id": str(group_res["item"].get("id"))}
