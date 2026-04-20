@@ -26,6 +26,7 @@ async def search_requests(
     technician_name: str | None = None,
     status_name: str | None = None,
     subject_contains: str | None = None,
+    requester_name: str | None = None,
     start_index: int = 1,
     row_count: int = 100,
 ):
@@ -54,6 +55,14 @@ async def search_requests(
             "logical_operator": "and" if criteria else None
         })
 
+    if requester_name:
+        criteria.append({
+            "field": "requester.name",
+            "condition": "contains",
+            "value": requester_name,
+            "logical_operator": "and" if criteria else None
+        })
+
     for c in criteria:
         if c.get("logical_operator") is None:
             c.pop("logical_operator", None)
@@ -73,6 +82,48 @@ async def search_requests(
 
     return await list_requests(params)
 
+async def get_my_open_requests(
+    technician_name: str = "Matthew MacKinnon",
+    start_index: int = 1,
+    row_count: int = 100,
+):
+    return await search_requests(
+        technician_name=technician_name,
+        status_name="Open",
+        start_index=start_index,
+        row_count=row_count,
+    )
+
+async def search_requests_by_subject(
+    subject_contains: str,
+    technician_name: str | None = None,
+    status_name: str | None = None,
+    start_index: int = 1,
+    row_count: int = 100,
+):
+    return await search_requests(
+        technician_name=technician_name,
+        status_name=status_name,
+        subject_contains=subject_contains,
+        start_index=start_index,
+        row_count=row_count,
+    )
+
+async def search_requests_by_requester(
+    requester_name: str,
+    technician_name: str | None = None,
+    status_name: str | None = None,
+    start_index: int = 1,
+    row_count: int = 100,
+):
+    return await search_requests(
+        technician_name=technician_name,
+        status_name=status_name,
+        requester_name=requester_name,
+        start_index=start_index,
+        row_count=row_count,
+    )
+
 def register_tools():
     return [
         "list_requests",
@@ -80,4 +131,7 @@ def register_tools():
         "create_request",
         "update_request",
         "search_requests",
+        "get_my_open_requests",
+        "search_requests_by_subject",
+        "search_requests_by_requester",
     ]

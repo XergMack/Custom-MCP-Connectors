@@ -11,6 +11,9 @@ TOOL_REGISTRY = {
     "create_request": requests_family.create_request,
     "update_request": requests_family.update_request,
     "search_requests": requests_family.search_requests,
+    "get_my_open_requests": requests_family.get_my_open_requests,
+    "search_requests_by_subject": requests_family.search_requests_by_subject,
+    "search_requests_by_requester": requests_family.search_requests_by_requester,
 
     "list_request_notes": notes_family.list_request_notes,
     "add_request_note": notes_family.add_request_note,
