@@ -1,2 +1,3 @@
-# Placeholder created during live mirror alignment.
-# Live container confirms this handler exists, but its exact contents have not yet been mirrored.
+from app.mcp.handlers._service import svc
+def handle_update_text_file(path: str, content: str):
+    return svc.update_text_file(path, content)

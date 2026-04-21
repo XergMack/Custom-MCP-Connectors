@@ -8,7 +8,6 @@ class BackendRequestError(Exception):
         self.status_code = status_code
 
 class HttpTransport:
-
     def get_json(self, url, headers):
         req = Request(url, headers=headers)
         try:
@@ -17,11 +16,30 @@ class HttpTransport:
         except HTTPError as e:
             raise BackendRequestError(str(e), e.code)
 
+    def get_text(self, url, headers):
+        req = Request(url, headers=headers)
+        try:
+            with urlopen(req) as r:
+                return r.read().decode("utf-8", errors="replace")
+        except HTTPError as e:
+            raise BackendRequestError(str(e), e.code)
+
+    def get_bytes(self, url, headers):
+        req = Request(url, headers=headers)
+        try:
+            with urlopen(req) as r:
+                return r.read()
+        except HTTPError as e:
+            raise BackendRequestError(str(e), e.code)
+
     def put_bytes(self, url, headers, body):
         req = Request(url, headers=headers, data=body, method="PUT")
         try:
             with urlopen(req) as r:
-                return json.loads(r.read())
+                raw = r.read()
+                if raw:
+                    return json.loads(raw)
+                return {"ok": True}
         except HTTPError as e:
             raise BackendRequestError(str(e), e.code)
 
@@ -34,19 +52,23 @@ class HttpTransport:
             raise BackendRequestError(str(e), e.code)
 
     def post_json(self, url, headers, body):
-        import json
         req = Request(url, headers=headers, data=json.dumps(body).encode(), method="POST")
         try:
             with urlopen(req) as r:
-                return json.loads(r.read())
+                raw = r.read()
+                if raw:
+                    return json.loads(raw)
+                return {"ok": True, "status": getattr(r, "status", None)}
         except HTTPError as e:
             raise BackendRequestError(str(e), e.code)
 
     def patch_json(self, url, headers, body):
-        import json
         req = Request(url, headers=headers, data=json.dumps(body).encode(), method="PATCH")
         try:
             with urlopen(req) as r:
-                return json.loads(r.read())
+                raw = r.read()
+                if raw:
+                    return json.loads(raw)
+                return {"ok": True, "status": getattr(r, "status", None)}
         except HTTPError as e:
             raise BackendRequestError(str(e), e.code)

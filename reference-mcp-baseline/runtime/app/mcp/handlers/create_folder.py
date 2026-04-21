@@ -1,2 +1,3 @@
-# Placeholder created during live mirror alignment.
-# Live container confirms this handler exists, but its exact contents have not yet been mirrored.
+from app.mcp.handlers._service import svc
+def handle_create_folder(path: str):
+    return svc.create_folder(path)
