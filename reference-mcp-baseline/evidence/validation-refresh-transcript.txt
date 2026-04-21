@@ -1,0 +1,13 @@
+[2026-04-21 04:41:39 -04:00] Starting Track A validation refresh
+[2026-04-21 04:41:39 -04:00] MCP URL: https://ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io/mcp
+[2026-04-21 04:41:39 -04:00] Safe SharePoint Path: /Shared Documents/CaberLink Operating System
+[2026-04-21 04:41:39 -04:00] Sending initialize request
+[2026-04-21 04:41:39 -04:00] Initialize succeeded
+[2026-04-21 04:41:39 -04:00] Captured session header: mcp-session-id
+[2026-04-21 04:41:39 -04:00] Sending tools/list request
+[2026-04-21 04:41:40 -04:00] tools/list failed: no result field returned
+[2026-04-21 04:41:40 -04:00] tools/list succeeded
+[2026-04-21 04:41:40 -04:00] Sending safe tool call: get_item_metadata
+[2026-04-21 04:41:40 -04:00] Safe tool call failed: no result field returned
+[2026-04-21 04:41:40 -04:00] Safe tool call succeeded
+[2026-04-21 04:41:40 -04:00] Validation refresh completed successfully
