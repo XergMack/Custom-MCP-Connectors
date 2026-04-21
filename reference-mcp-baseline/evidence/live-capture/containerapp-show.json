@@ -1,0 +1,122 @@
+{
+  "id": "/subscriptions/8eb1dbee-a6f3-44b4-9df4-9766109f1ffa/resourceGroups/rg-caberlink-write-api-prod/providers/Microsoft.App/containerapps/ca-caberlink-write-api-mcp",
+  "identity": {
+    "principalId": "6fa0c55a-ed12-45cc-8852-97025d4bcf19",
+    "tenantId": "3daa3943-d30e-43e4-a28d-04bd3216f019",
+    "type": "SystemAssigned"
+  },
+  "location": "East US",
+  "name": "ca-caberlink-write-api-mcp",
+  "properties": {
+    "configuration": {
+      "activeRevisionsMode": "Multiple",
+      "dapr": null,
+      "identitySettings": [],
+      "ingress": {
+        "additionalPortMappings": null,
+        "allowInsecure": false,
+        "clientCertificateMode": null,
+        "corsPolicy": null,
+        "customDomains": null,
+        "exposedPort": 0,
+        "external": true,
+        "fqdn": "ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io",
+        "ipSecurityRestrictions": null,
+        "stickySessions": null,
+        "targetPort": 8000,
+        "targetPortHttpScheme": null,
+        "traffic": [
+          {
+            "latestRevision": true,
+            "weight": 100
+          }
+        ],
+        "transport": "Auto"
+      },
+      "maxInactiveRevisions": 100,
+      "registries": [
+        {
+          "identity": "",
+          "passwordSecretRef": "acrcaberlinkwriteapi01azurecrio-acrcaberlinkwriteapi01",
+          "server": "acrcaberlinkwriteapi01.azurecr.io",
+          "username": "acrcaberlinkwriteapi01"
+        }
+      ],
+      "revisionTransitionThreshold": null,
+      "runtime": null,
+      "secrets": [
+        {
+          "name": "acrcaberlinkwriteapi01azurecrio-acrcaberlinkwriteapi01"
+        }
+      ],
+      "service": null,
+      "targetLabel": ""
+    },
+    "customDomainVerificationId": "C59A938F47F80A0C5841EB397C197791CE8D331EC88C14051207C1E6B42EDDBA",
+    "delegatedIdentities": [],
+    "environmentId": "/subscriptions/8eb1dbee-a6f3-44b4-9df4-9766109f1ffa/resourceGroups/rg-caberlink-mcp-prod/providers/Microsoft.App/managedEnvironments/cae-caberlink-mcp-prod",
+    "eventStreamEndpoint": "https://eastus.azurecontainerapps.dev/subscriptions/8eb1dbee-a6f3-44b4-9df4-9766109f1ffa/resourceGroups/rg-caberlink-write-api-prod/containerApps/ca-caberlink-write-api-mcp/eventstream",
+    "latestReadyRevisionName": "ca-caberlink-write-api-mcp--0000005",
+    "latestRevisionFqdn": "ca-caberlink-write-api-mcp--0000005.wonderfulfield-3f700329.eastus.azurecontainerapps.io",
+    "latestRevisionName": "ca-caberlink-write-api-mcp--0000005",
+    "managedEnvironmentId": "/subscriptions/8eb1dbee-a6f3-44b4-9df4-9766109f1ffa/resourceGroups/rg-caberlink-mcp-prod/providers/Microsoft.App/managedEnvironments/cae-caberlink-mcp-prod",
+    "outboundIpAddresses": [
+      "52.226.147.221"
+    ],
+    "patchingMode": "Automatic",
+    "provisioningState": "Succeeded",
+    "runningStatus": "Running",
+    "template": {
+      "containers": [
+        {
+          "env": [
+            {
+              "name": "CABERLINK_SITE_ID",
+              "value": "caberlink0.sharepoint.com,a8f44971-1e49-4305-b361-cbb951faf944,0815b961-6aea-44cf-96fc-1da7bdef85d5"
+            },
+            {
+              "name": "CABERLINK_DRIVE_ID",
+              "value": "b!cUn0qEkeBUOzYcu5Ufr5RGG5FQjqas9Elvwdp73vhdXBqkCz6JNgSou1I71JKPkb"
+            },
+            {
+              "name": "CABERLINK_GRAPH_ACCESS_TOKEN",
+              "value": ""
+            }
+          ],
+          "image": "acrcaberlinkwriteapi01.azurecr.io/caberlink-write-api-mcp:mi-fix-01",
+          "imageType": "ContainerImage",
+          "name": "ca-caberlink-write-api-mcp",
+          "resources": {
+            "cpu": 0.5,
+            "ephemeralStorage": "2Gi",
+            "memory": "1Gi"
+          }
+        }
+      ],
+      "customMetricsSettings": null,
+      "initContainers": null,
+      "revisionSuffix": "",
+      "scale": {
+        "cooldownPeriod": 300,
+        "maxReplicas": 10,
+        "minReplicas": 1,
+        "pollingInterval": 30,
+        "rules": null
+      },
+      "serviceBinds": null,
+      "terminationGracePeriodSeconds": null,
+      "volumes": null
+    },
+    "workloadProfileName": null
+  },
+  "resourceGroup": "rg-caberlink-write-api-prod",
+  "systemData": {
+    "createdAt": "2026-04-16T18:39:01.4113466",
+    "createdBy": "matthew@caberlink.com",
+    "createdByType": "User",
+    "lastModifiedAt": "2026-04-19T14:17:43.2309074",
+    "lastModifiedBy": "matthew@caberlink.com",
+    "lastModifiedByType": "User"
+  },
+  "type": "Microsoft.App/containerApps"
+}

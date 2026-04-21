@@ -1,0 +1,13 @@
+Capture Timestamp: 2026-04-21 04:36:33 -04:00
+Subscription: 8eb1dbee-a6f3-44b4-9df4-9766109f1ffa
+Resource Group: rg-caberlink-write-api-prod
+App Name: ca-caberlink-write-api-mcp
+Managed Environment: cae-caberlink-mcp-prod
+FQDN: ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io
+MCP URL: https://ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io/mcp
+Latest Revision: ca-caberlink-write-api-mcp--0000005
+Image: acrcaberlinkwriteapi01.azurecr.io/caberlink-write-api-mcp:mi-fix-01
+Identity Type: SystemAssigned
+Min Replicas: 1
+Max Replicas: 10
+Revision Mode: Multiple

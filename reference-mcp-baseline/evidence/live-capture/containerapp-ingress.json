@@ -1,0 +1,21 @@
+{
+  "additionalPortMappings": null,
+  "allowInsecure": false,
+  "clientCertificateMode": null,
+  "corsPolicy": null,
+  "customDomains": null,
+  "exposedPort": 0,
+  "external": true,
+  "fqdn": "ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io",
+  "ipSecurityRestrictions": null,
+  "stickySessions": null,
+  "targetPort": 8000,
+  "targetPortHttpScheme": null,
+  "traffic": [
+    {
+      "latestRevision": true,
+      "weight": 100
+    }
+  ],
+  "transport": "Auto"
+}

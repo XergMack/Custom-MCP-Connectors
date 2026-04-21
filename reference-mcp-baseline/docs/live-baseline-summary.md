@@ -12,12 +12,12 @@ Active Revision: ca-caberlink-write-api-mcp--0000005
 Image: acrcaberlinkwriteapi01.azurecr.io/caberlink-write-api-mcp:mi-fix-01
 
 Identity:
-- System-assigned managed identity enabled
+- SystemAssigned
 
 Environment Variables:
-- CABERLINK_SITE_ID
-- CABERLINK_DRIVE_ID
-- CABERLINK_GRAPH_ACCESS_TOKEN (blank in live config)
+- CABERLINK_SITE_ID -> literal value present
+- CABERLINK_DRIVE_ID -> literal value present
+- CABERLINK_GRAPH_ACCESS_TOKEN
 
 Scale:
 - minReplicas: 1

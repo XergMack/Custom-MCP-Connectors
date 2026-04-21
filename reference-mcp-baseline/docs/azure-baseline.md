@@ -22,7 +22,7 @@ https://ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainer
 
 ### Ingress
 
-- external: true
+- external: True
 - target port: 8000
 
 ### Registry
@@ -32,17 +32,17 @@ acrcaberlinkwriteapi01.azurecr.io/caberlink-write-api-mcp
 ### Managed Environment
 
 - environment name: cae-caberlink-mcp-prod
-- environment resource group: rg-caberlink-mcp-prod
+- environment resource group: rg-caberlink-write-api-prod
 - environment resource ID: /subscriptions/8eb1dbee-a6f3-44b4-9df4-9766109f1ffa/resourceGroups/rg-caberlink-mcp-prod/providers/Microsoft.App/managedEnvironments/cae-caberlink-mcp-prod
 
 ### Identity
 
-Managed identity enabled in production deployment. Exact identity assignment and usage should be documented here once exported from Azure.
+SystemAssigned
 
 ### Scaling
 
-- min replicas: [REPLACE WITH ACTUAL VALUE]
-- max replicas: [REPLACE IF USED]
+- min replicas: 1
+- max replicas: 10
 
 ## Runtime Configuration
 
@@ -51,10 +51,14 @@ Capture and pin the exact runtime assumptions:
 - public hostname: ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io
 - target port: 8000
 - startup command or runtime entrypoint: python -m app.mcp.server
-- environment variables: [REPLACE WITH ACTUAL WORKING SET]
-- secret references: [REPLACE WITH ACTUAL WORKING SET]
-- registry/image digest: [REPLACE WITH DIGEST IF AVAILABLE]
-- revision strategy: Container Apps revisions
+- environment variables:
+  - CABERLINK_SITE_ID -> literal value present
+  - CABERLINK_DRIVE_ID -> literal value present
+  - CABERLINK_GRAPH_ACCESS_TOKEN
+- secret references: documented via env secretRef mappings above and raw JSON evidence in evidence/live-capture
+- registry/image: acrcaberlinkwriteapi01.azurecr.io/caberlink-write-api-mcp:mi-fix-01
+- latest revision: ca-caberlink-write-api-mcp--0000005
+- revision strategy: Azure Container Apps revisions (Multiple)
 
 ## Transport Security
 
@@ -74,12 +78,12 @@ ca-caberlink-write-api-mcp.wonderfulfield-3f700329.eastus.azurecontainerapps.io
 
 Document how the reference connector is deployed:
 
-- build tool or script: [REPLACE]
-- image build path: [REPLACE]
+- build tool or script: still needs exact operator command capture
+- image build path: still needs exact operator command capture
 - registry push path: acrcaberlinkwriteapi01.azurecr.io/caberlink-write-api-mcp
-- deployment command: [REPLACE]
-- environment update command: [REPLACE]
-- restart/revision strategy: Azure Container Apps revision-based rollout
+- deployment command: still needs exact operator command capture
+- environment update command: still needs exact operator command capture
+- restart/revision strategy: Azure Container Apps revision-based rollout (Multiple)
 
 ## Diagnostic Branches
 
