@@ -35,6 +35,17 @@ class Service:
     def _path(self, path):
         return self.paths.normalize_drive_relative_path(path)
 
+    def _summary(self, op_name, results):
+        success = [r for r in results if r.get("Success")]
+        failed = [r for r in results if not r.get("Success")]
+        return {
+            "Operation": op_name,
+            "RequestedCount": len(results),
+            "SuccessCount": len(success),
+            "FailureCount": len(failed),
+            "Results": results
+        }
+
     def list_sites(self):
         return self.graph.list_sites()
 
@@ -226,3 +237,135 @@ class Service:
             if e.status_code == 404:
                 return {"Deleted": True}
             raise
+
+    def bulk_create_folders(self, paths, site_id="", drive_id="", exists_behavior="skip", continue_on_error=True, verify=True):
+        sid = self._site(site_id)
+        did = self._drive(drive_id)
+        results = []
+
+        for raw_path in (paths or []):
+            path = self._path(raw_path)
+            row = {"Path": raw_path, "NormalizedPath": path, "Success": False}
+
+            try:
+                if not path:
+                    raise Exception("Folder path cannot be empty")
+
+                if exists_behavior == "skip":
+                    try:
+                        existing = self.graph.resolve_by_path(path, site_id=sid, drive_id=did)
+                        row["Success"] = True
+                        row["Status"] = "skipped_exists"
+                        row["Item"] = existing
+                        results.append(row)
+                        continue
+                    except BackendRequestError as e:
+                        if e.status_code != 404:
+                            raise
+
+                created = self.create_folder(path, site_id=sid, drive_id=did)
+                row["Success"] = True
+                row["Status"] = "created"
+                row["Item"] = created
+
+                if verify:
+                    verified = self.graph.resolve_by_path(path, site_id=sid, drive_id=did)
+                    row["Verified"] = True
+                    row["VerifiedItemId"] = verified.get("id")
+            except Exception as e:
+                row["Error"] = str(e)
+                row["Status"] = "failed"
+                if not continue_on_error:
+                    results.append(row)
+                    raise
+            results.append(row)
+
+        return self._summary("bulk_create_folders", results)
+
+    def bulk_move_or_rename_items(self, items, site_id="", drive_id="", continue_on_error=True, verify=True, no_op_behavior="skip"):
+        sid = self._site(site_id)
+        did = self._drive(drive_id)
+        results = []
+
+        for item in (items or []):
+            source = item.get("source", "")
+            destination = item.get("destination", "")
+            row = {"Source": source, "Destination": destination, "Success": False}
+
+            try:
+                src_norm = self._path(source)
+                dst_norm = self._path(destination)
+
+                if src_norm == dst_norm:
+                    if no_op_behavior == "skip":
+                        row["Success"] = True
+                        row["Status"] = "skipped_noop"
+                        results.append(row)
+                        continue
+                    raise Exception("No-op move not allowed")
+
+                moved = self.move_or_rename_item(src_norm, dst_norm, site_id=sid, drive_id=did)
+                row["Success"] = True
+                row["Status"] = "moved"
+                row["Item"] = moved
+
+                if verify:
+                    verified = self.graph.resolve_by_path(dst_norm, site_id=sid, drive_id=did)
+                    row["Verified"] = True
+                    row["VerifiedItemId"] = verified.get("id")
+            except Exception as e:
+                row["Error"] = str(e)
+                row["Status"] = "failed"
+                if not continue_on_error:
+                    results.append(row)
+                    raise
+            results.append(row)
+
+        return self._summary("bulk_move_or_rename_items", results)
+
+    def bulk_delete_items(self, paths, site_id="", drive_id="", missing_behavior="skip", continue_on_error=True, verify=True):
+        sid = self._site(site_id)
+        did = self._drive(drive_id)
+        results = []
+
+        for raw_path in (paths or []):
+            path = self._path(raw_path)
+            row = {"Path": raw_path, "NormalizedPath": path, "Success": False}
+
+            try:
+                if not path:
+                    raise Exception("Delete path cannot be empty")
+
+                try:
+                    existing = self.graph.resolve_by_path(path, site_id=sid, drive_id=did)
+                    row["ExistingItemId"] = existing.get("id")
+                except BackendRequestError as e:
+                    if e.status_code == 404 and missing_behavior == "skip":
+                        row["Success"] = True
+                        row["Status"] = "skipped_missing"
+                        results.append(row)
+                        continue
+                    raise
+
+                delete_result = self.delete_item(path, site_id=sid, drive_id=did)
+                row["Success"] = bool(delete_result.get("Deleted"))
+                row["Status"] = "deleted" if row["Success"] else "delete_unverified"
+
+                if verify:
+                    try:
+                        self.graph.resolve_by_path(path, site_id=sid, drive_id=did)
+                        row["Verified"] = False
+                    except BackendRequestError as e:
+                        if e.status_code == 404:
+                            row["Verified"] = True
+                        else:
+                            raise
+            except Exception as e:
+                row["Error"] = str(e)
+                row["Status"] = "failed"
+                if not continue_on_error:
+                    results.append(row)
+                    raise
+            results.append(row)
+
+        return self._summary("bulk_delete_items", results)
