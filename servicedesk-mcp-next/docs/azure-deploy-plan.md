@@ -14,12 +14,21 @@
 - MCP_ENV=prod
 - MCP_LOG_LEVEL=INFO
 
-## Validation Order
-1. initialize
-2. tools/list
-3. health
-4. list_requests
-5. create_request_for_requester_id in test tenant only
+## Validated Before Deploy
+- initialize
+- tools/list
+- health
+- list_requests
+- get_request
+- create_request
+- create_request_for_requester_id
+- update_request_subject_and_description
+- update_request_status
+
+## Known Remaining Gap
+- note create endpoint still requires final payload/auth alignment
+- note read works
+- request lifecycle is deployable now
 
 ## Rollback Model
 - revision-based rollback in Azure Container Apps

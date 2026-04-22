@@ -7,18 +7,19 @@ Validated core lifecycle:
 - create_request
 - update_request
 
-Requester-aware create variants:
-- create_request_from_context
+Validated helper lifecycle:
 - create_request_for_requester_id
-
-Request mutation helpers:
 - update_request_status
 - update_request_subject_and_description
 
-Notes:
+Validated notes read:
 - list_request_notes
+
+Current note write status:
 - add_request_note
 - add_request_note_simple
+
+These note-write paths remain pending final endpoint-specific payload/auth alignment.
 
 Worklogs:
 - list_request_worklogs
