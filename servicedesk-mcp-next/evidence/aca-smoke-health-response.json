@@ -1,0 +1,1 @@
+{"jsonrpc":"2.0","id":3,"result":{"content":[{"type":"text","text":"{\n  \"ok\": true,\n  \"system\": \"servicedesk\",\n  \"environment\": \"prod\",\n  \"base_uri_present\": true,\n  \"api_key_present\": true\n}"}],"isError":false}}
