@@ -1,45 +1,48 @@
-﻿param(
-    [Parameter(Mandatory = True)][string]
+param(
+    [Parameter(Mandatory = $true)]
+    [string]$McpUrl
 )
 
-Stop = "Stop"
+$ErrorActionPreference = "Stop"
 
-application/json, text/event-stream = "application/json, text/event-stream"
-2024-11-05 = "2024-11-05"
-.\_smoke = ".\_aca_smoke"
-New-Item -ItemType Directory -Force -Path .\_smoke | Out-Null
+$AcceptHeader = "application/json, text/event-stream"
+$ProtocolHeader = "2024-11-05"
+$OutDir = ".\_aca_smoke"
 
-.\_smoke\init-headers.txt = Join-Path .\_smoke "init-headers.txt"
-.\_smoke\init-body.json = Join-Path .\_smoke "init-body.json"
-.\_smoke\ready-body.txt = Join-Path .\_smoke "ready-body.txt"
-.\_smoke\tools-body.json = Join-Path .\_smoke "tools-body.json"
-.\_smoke\health-body.json = Join-Path .\_smoke "health-body.json"
+Remove-Item -Recurse -Force $OutDir -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
 
-.\_smoke\init-payload.json = Join-Path .\_smoke "init-payload.json"
-.\_smoke\ready-payload.json = Join-Path .\_smoke "ready-payload.json"
-.\_smoke\tools-payload.json = Join-Path .\_smoke "tools-payload.json"
-.\_smoke\health-payload.json = Join-Path .\_smoke "health-payload.json"
+$InitHeaders = Join-Path $OutDir "init-headers.txt"
+$InitBody = Join-Path $OutDir "init-body.json"
+$ReadyBody = Join-Path $OutDir "ready-body.txt"
+$ToolsBody = Join-Path $OutDir "tools-body.json"
+$HealthBody = Join-Path $OutDir "health-body.json"
 
-Set-Content -Path .\_smoke\init-payload.json -Encoding UTF8 -NoNewline -Value '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"aca-smoke","version":"1.0"}}}'
-Set-Content -Path .\_smoke\ready-payload.json -Encoding UTF8 -NoNewline -Value '{"jsonrpc":"2.0","method":"notifications/initialized"}'
-Set-Content -Path .\_smoke\tools-payload.json -Encoding UTF8 -NoNewline -Value '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
-Set-Content -Path .\_smoke\health-payload.json -Encoding UTF8 -NoNewline -Value '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"health","arguments":{}}}'
+$InitPayloadFile = Join-Path $OutDir "init-payload.json"
+$ReadyPayloadFile = Join-Path $OutDir "ready-payload.json"
+$ToolsPayloadFile = Join-Path $OutDir "tools-payload.json"
+$HealthPayloadFile = Join-Path $OutDir "health-payload.json"
 
-curl.exe -sS -D .\_smoke\init-headers.txt -o .\_smoke\init-body.json -H "Accept: application/json, text/event-stream" -H "Content-Type: application/json" -X POST  --data-binary "@.\_smoke\init-payload.json"
+Set-Content -Path $InitPayloadFile -Encoding UTF8 -NoNewline -Value '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"aca-smoke","version":"1.0"}}}'
+Set-Content -Path $ReadyPayloadFile -Encoding UTF8 -NoNewline -Value '{"jsonrpc":"2.0","method":"notifications/initialized"}'
+Set-Content -Path $ToolsPayloadFile -Encoding UTF8 -NoNewline -Value '{"jsonrpc":"2.0","id":2,"method":"tools/list"}'
+Set-Content -Path $HealthPayloadFile -Encoding UTF8 -NoNewline -Value '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"health","arguments":{}}}'
 
-C:\Users\matt\OneDrive - caberlink.com\GitHub\Custom-MCP-Connectors\servicedesk-mcp-next\runtime\_smoke\init-headers.txt:5:mcp-session-id: 55309e3d2aa2407eac1a2b0e5d109cf0 = Select-String -Path .\_smoke\init-headers.txt -Pattern "^mcp-session-id:\s*(.+)$" -CaseSensitive:False | Select-Object -First 1
-if (-not C:\Users\matt\OneDrive - caberlink.com\GitHub\Custom-MCP-Connectors\servicedesk-mcp-next\runtime\_smoke\init-headers.txt:5:mcp-session-id: 55309e3d2aa2407eac1a2b0e5d109cf0) { throw "No mcp-session-id returned from initialize." }
-55309e3d2aa2407eac1a2b0e5d109cf0 = C:\Users\matt\OneDrive - caberlink.com\GitHub\Custom-MCP-Connectors\servicedesk-mcp-next\runtime\_smoke\init-headers.txt:5:mcp-session-id: 55309e3d2aa2407eac1a2b0e5d109cf0.Matches[0].Groups[1].Value.Trim()
+curl.exe -sS -D $InitHeaders -o $InitBody -H "Accept: $AcceptHeader" -H "Content-Type: application/json" -X POST $McpUrl --data-binary "@$InitPayloadFile"
 
-curl.exe -sS -o .\_smoke\ready-body.txt -H "Accept: application/json, text/event-stream" -H "Content-Type: application/json" -H "MCP-Protocol-Version: 2024-11-05" -H "mcp-session-id: 55309e3d2aa2407eac1a2b0e5d109cf0" -X POST  --data-binary "@.\_smoke\ready-payload.json"
-curl.exe -sS -o .\_smoke\tools-body.json -H "Accept: application/json, text/event-stream" -H "Content-Type: application/json" -H "MCP-Protocol-Version: 2024-11-05" -H "mcp-session-id: 55309e3d2aa2407eac1a2b0e5d109cf0" -X POST  --data-binary "@.\_smoke\tools-payload.json"
-curl.exe -sS -o .\_smoke\health-body.json -H "Accept: application/json, text/event-stream" -H "Content-Type: application/json" -H "MCP-Protocol-Version: 2024-11-05" -H "mcp-session-id: 55309e3d2aa2407eac1a2b0e5d109cf0" -X POST  --data-binary "@.\_smoke\health-payload.json"
+$sessionLine = Select-String -Path $InitHeaders -Pattern "^mcp-session-id:\s*(.+)$" -CaseSensitive:$false | Select-Object -First 1
+if (-not $sessionLine) { throw "No mcp-session-id returned from initialize." }
+$sessionId = $sessionLine.Matches[0].Groups[1].Value.Trim()
+
+curl.exe -sS -o $ReadyBody -H "Accept: $AcceptHeader" -H "Content-Type: application/json" -H "MCP-Protocol-Version: $ProtocolHeader" -H "mcp-session-id: $sessionId" -X POST $McpUrl --data-binary "@$ReadyPayloadFile"
+curl.exe -sS -o $ToolsBody -H "Accept: $AcceptHeader" -H "Content-Type: application/json" -H "MCP-Protocol-Version: $ProtocolHeader" -H "mcp-session-id: $sessionId" -X POST $McpUrl --data-binary "@$ToolsPayloadFile"
+curl.exe -sS -o $HealthBody -H "Accept: $AcceptHeader" -H "Content-Type: application/json" -H "MCP-Protocol-Version: $ProtocolHeader" -H "mcp-session-id: $sessionId" -X POST $McpUrl --data-binary "@$HealthPayloadFile"
 
 Write-Host "===== init ====="
-Get-Content .\_smoke\init-body.json
+Get-Content $InitBody
 Write-Host ""
 Write-Host "===== tools ====="
-Get-Content .\_smoke\tools-body.json
+Get-Content $ToolsBody
 Write-Host ""
 Write-Host "===== health ====="
-Get-Content .\_smoke\health-body.json
+Get-Content $HealthBody
