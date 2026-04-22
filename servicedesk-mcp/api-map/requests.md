@@ -7,6 +7,7 @@ Status: Working
 - GET /requests/{id}
 - POST /requests
 - PUT /requests/{id}
+- PUT /requests/{id}/assign
 
 ## Read
 - Yes
@@ -32,8 +33,19 @@ Status: Working
   - status
   - technician
   - support group
-- In this environment, support group is resolved but omitted from initial create payload
-- Group should be handled as a deferred post-create action
+- Primary path is ManageEngine doc-first create/edit using documented request attributes
+- Documented write fields now used in initial create payload:
+  - requester
+  - template
+  - site
+  - priority
+  - status
+  - technician
+  - support group
+  - category
+- Documented assignment endpoint is also implemented:
+  - PUT /requests/{id}/assign
+- Compatibility fallback is only used after read-after-write verification detects that technician/group did not persist as expected
 
 ## Required fields observed
 - subject
@@ -45,9 +57,24 @@ Status: Working
 - get_request
 - create_request
 - update_request
+- assign_request
 - search_requests
 - create_request_from_context
+
+## Verification behavior
+- create_request_from_context now fetches the created request
+- final state is verified for:
+  - requester
+  - template
+  - site
+  - priority
+  - status
+  - technician
+  - support group
+  - category
+- if technician or group mismatch after create, compatibility fallback uses the documented assign endpoint and verifies again
 
 ## Notes
 - Default template fallback uses "Default Request"
 - Site-aware support group resolution is implemented
+- ManageEngine request docs document technician and group on Add Request and Edit Request, and document Assign Request at /requests/{id}/assign
