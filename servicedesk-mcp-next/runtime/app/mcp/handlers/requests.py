@@ -1,4 +1,4 @@
-from app.mcp.handlers._service import svc
+﻿from app.mcp.handlers._service import svc
 
 async def handle_list_requests(params: dict | None = None):
     return await svc.list_requests(params=params)
@@ -11,3 +11,10 @@ async def handle_create_request(payload: dict):
 
 async def handle_update_request(request_id: str, payload: dict):
     return await svc.update_request(request_id=request_id, payload=payload)
+
+async def handle_create_request_from_context(subject: str, description: str, requester_name: str):
+    return await svc.create_request_from_context(
+        subject=subject,
+        description=description,
+        requester_name=requester_name,
+    )

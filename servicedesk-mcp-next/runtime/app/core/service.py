@@ -1,4 +1,4 @@
-from app.core.config import settings
+﻿from app.core.config import settings
 from app.families import requests as requests_family
 from app.families import notes as notes_family
 from app.families import worklogs as worklogs_family
@@ -25,6 +25,13 @@ class Service:
 
     async def update_request(self, request_id: str, payload: dict):
         return await requests_family.update_request(request_id=request_id, payload=payload)
+
+    async def create_request_from_context(self, subject: str, description: str, requester_name: str):
+        return await requests_family.create_request_from_context(
+            subject=subject,
+            description=description,
+            requester_name=requester_name,
+        )
 
     async def list_request_notes(self, request_id: str):
         return await notes_family.list_request_notes(request_id=request_id)

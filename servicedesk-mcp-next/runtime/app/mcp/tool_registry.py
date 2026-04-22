@@ -1,4 +1,4 @@
-from mcp.server.fastmcp import FastMCP
+﻿from mcp.server.fastmcp import FastMCP
 
 from app.mcp.handlers.health import handle_health
 from app.mcp.handlers.requests import (
@@ -6,6 +6,7 @@ from app.mcp.handlers.requests import (
     handle_get_request,
     handle_create_request,
     handle_update_request,
+    handle_create_request_from_context,
 )
 from app.mcp.handlers.notes import (
     handle_list_request_notes,
@@ -41,6 +42,14 @@ def register_tools(mcp: FastMCP):
     @mcp.tool(name="update_request")
     async def update_request(request_id: str, payload: dict):
         return await handle_update_request(request_id=request_id, payload=payload)
+
+    @mcp.tool(name="create_request_from_context")
+    async def create_request_from_context(subject: str, description: str, requester_name: str):
+        return await handle_create_request_from_context(
+            subject=subject,
+            description=description,
+            requester_name=requester_name,
+        )
 
     @mcp.tool(name="list_request_notes")
     async def list_request_notes(request_id: str):
