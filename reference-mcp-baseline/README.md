@@ -1,4 +1,4 @@
-# MCP Connector Reference Baseline
+﻿# MCP Connector Reference Baseline
 
 This folder is the canonical baseline for building custom ChatGPT MCP connectors with true parity.
 
@@ -46,16 +46,30 @@ Future connectors may change only the target-system-specific parts, such as:
 - service-core implementation
 - secrets and auth specifics for the target system
 
+## Canonical Doctrine
+
+Read these first before building any future connector:
+
+- docs/architecture.md
+- docs/azure-baseline.md
+- docs/canonical-connector-doctrine.md
+- docs/how-to-clone-this-baseline-for-a-new-connector.md
+- docs/fresh-thread-handoff-for-next-connector.md
+- docs/parity-checklist.md
+- docs/validation.md
+
 ## Repository Layout
 
-- `docs/architecture.md` — top-down system design
-- `docs/azure-baseline.md` — exact Azure runtime and deployment model
-- `docs/connector-config.md` — exact ChatGPT connector settings
-- `docs/validation.md` — deployment validation sequence
-- `docs/parity-checklist.md` — required parity checks before calling a new connector aligned
-- `runtime/` — MCP runtime code and runtime dependencies
-- `infra/` — IaC and deployment scripts
-- `evidence/` — captured working responses and operator evidence
+- docs/architecture.md — top-down system design
+- docs/azure-baseline.md — exact Azure runtime and deployment model
+- docs/canonical-connector-doctrine.md — all-connectors doctrine and adapter-only variance rule
+- docs/fresh-thread-handoff-for-next-connector.md — fresh-thread instruction source for the next connector
+- docs/connector-config.md — exact ChatGPT connector settings
+- docs/validation.md — deployment validation sequence
+- docs/parity-checklist.md — required parity checks before calling a new connector aligned
+- untime/ — MCP runtime code and runtime dependencies
+- infra/ — IaC and deployment scripts
+- evidence/ — captured working responses and operator evidence
 
 ## Status Model
 

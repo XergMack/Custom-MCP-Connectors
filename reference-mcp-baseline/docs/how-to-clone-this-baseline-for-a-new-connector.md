@@ -1,4 +1,4 @@
-# How to Clone This Baseline for a New Connector
+﻿# How to Clone This Baseline for a New Connector
 
 ## Purpose
 
@@ -13,18 +13,31 @@ Do not redesign the connector unless there is a documented reason.
 Start from this baseline and preserve parity first.
 Change only what is required for the new target system.
 
+## Read First
+
+Before cloning, read:
+
+- eference-mcp-baseline/docs/architecture.md
+- eference-mcp-baseline/docs/azure-baseline.md
+- eference-mcp-baseline/docs/canonical-connector-doctrine.md
+- eference-mcp-baseline/docs/fresh-thread-handoff-for-next-connector.md
+- eference-mcp-baseline/docs/parity-checklist.md
+- eference-mcp-baseline/docs/validation.md
+
 ## What To Copy Unchanged First
 
 Clone the baseline repository or copy the baseline folder structure as your starting point.
 
 Preserve these areas initially without modification:
 
-- `reference-mcp-baseline/docs/architecture.md`
-- `reference-mcp-baseline/docs/validation.md`
-- `reference-mcp-baseline/docs/parity-checklist.md`
-- `reference-mcp-baseline/runtime/Dockerfile`
-- `reference-mcp-baseline/runtime/startup-command.txt`
-- `reference-mcp-baseline/infra/` deployment artifacts, unless the Azure environment itself must differ
+- eference-mcp-baseline/docs/architecture.md
+- eference-mcp-baseline/docs/azure-baseline.md
+- eference-mcp-baseline/docs/canonical-connector-doctrine.md
+- eference-mcp-baseline/docs/validation.md
+- eference-mcp-baseline/docs/parity-checklist.md
+- eference-mcp-baseline/runtime/Dockerfile
+- eference-mcp-baseline/runtime/startup-command.txt
+- eference-mcp-baseline/infra/ deployment artifacts, unless the Azure environment itself must differ
 
 ## What To Replace For A New Connector
 
@@ -33,24 +46,18 @@ Only replace the parts that are specific to the target system.
 ### 1. Connector Identity
 
 Update:
-
 - connector name
 - connector description
 - repository/project naming
 - target-system references in docs
-
-Primary file:
-
-- `reference-mcp-baseline/docs/connector-config.md`
 
 ### 2. Runtime Tool Surface
 
 Update the tool registration and any connector-specific logic.
 
 Primary files:
-
-- `reference-mcp-baseline/runtime/app/mcp/tool_registry.py`
-- any target-system-specific modules added under `runtime/app/`
+- eference-mcp-baseline/runtime/app/mcp/tool_registry.py
+- any target-system-specific modules added under untime/app/
 
 Keep the MCP runtime thin.
 
@@ -63,7 +70,6 @@ Do not move business logic into the MCP transport layer.
 ### 4. Configuration Values
 
 Update only the values that must change, such as:
-
 - backend base URL
 - vendor API endpoints
 - auth settings
@@ -72,27 +78,13 @@ Update only the values that must change, such as:
 - Azure resource names
 - environment-specific secrets/config
 
-Primary files:
-
-- `reference-mcp-baseline/docs/azure-baseline.md`
-- `reference-mcp-baseline/infra/*`
-- runtime env var handling
-
 ### 5. Tool Evidence
 
 Replace the evidence files with evidence from the new connector once validation is complete.
 
-Primary files:
-
-- `reference-mcp-baseline/evidence/initialize-response.json`
-- `reference-mcp-baseline/evidence/tools-list-response.json`
-- `reference-mcp-baseline/evidence/sample-tool-call.json`
-- `reference-mcp-baseline/evidence/working-endpoint.txt`
-
 ## What Must Not Change Without Deliberate Review
 
 Do not change these casually:
-
 - Azure hosting substrate
 - ingress/public endpoint model
 - target port behavior
@@ -100,12 +92,19 @@ Do not change these casually:
 - transport model
 - transport security posture
 - validation sequence
-- write-safety posture
 
-Any change to one of those must be documented explicitly in:
+Testing posture may remain broad in test connectors, but any production narrowing must be explicit and documented.
 
-- `reference-mcp-baseline/docs/azure-baseline.md`
-- `reference-mcp-baseline/docs/parity-checklist.md`
+## Testing Connector Rule
+
+In testing:
+- expose broad read
+- expose broad write
+- avoid arbitrary family exclusions unless technically impossible
+- let human judgment, validation, and deployment discipline provide control
+
+In production later:
+- reduce scope intentionally only after testing proves what is useful and reliable
 
 ## Recommended Build Sequence For A New Connector
 
@@ -114,24 +113,14 @@ Use this order every time:
 1. Clone the baseline
 2. Rename only project identity values
 3. Replace target-system-specific runtime logic
-4. Update Azure config values
-5. Deploy to the same Azure pattern when possible
-6. Prove `initialize`
-7. Prove `tools/list`
-8. Prove one safe real `tools/call`
-9. Attach in ChatGPT
-10. Replace evidence files with the new connector's proof
-
-## Validation Standard
-
-A connector is not “at parity” because the code looks similar.
-
-It is only at parity when:
-
-- the deployment model matches where intended
-- the runtime model matches where intended
-- the connector config matches where intended
-- the validation artifacts prove real end-to-end behavior
+4. Check official product/API docs for request contracts
+5. Update Azure config values
+6. Deploy to the same Azure pattern when possible
+7. Prove initialize
+8. Prove 	ools/list
+9. Prove one real safe 	ools/call
+10. Attach in ChatGPT
+11. Replace evidence files with the new connector's proof
 
 ## Minimum Handoff Contents For Any Future Connector
 
@@ -139,22 +128,11 @@ Before treating a new connector as reusable, make sure its repo includes:
 
 - runtime code
 - dependency manifest
-- Dockerfile or startup command
+- Dockerfile
+- startup command
 - Azure deployment artifacts
-- connector configuration doc
+- canonical doctrine docs
 - validation doc
 - parity checklist
 - evidence files
-
-## Practical Rule
-
-Keep the baseline boring.
-
-The baseline should optimize for:
-
-- repeatability
-- auditability
-- minimal surprise
-- minimal reinvention
-
-If a new connector needs innovation, prove parity first, then document the deviation.
+- connector-specific tool-surface doc
