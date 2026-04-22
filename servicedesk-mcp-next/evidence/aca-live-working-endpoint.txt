@@ -1,0 +1,8 @@
+ServiceDesk MCP Next live ACA endpoint
+
+Container App Name: ca-caberlink-sd-mcp-next
+Resource Group: rg-caberlink-write-api-prod
+Managed Environment Resource ID: /subscriptions/8eb1dbee-a6f3-44b4-9df4-9766109f1ffa/resourceGroups/rg-caberlink-mcp-prod/providers/Microsoft.App/managedEnvironments/cae-caberlink-mcp-prod
+FQDN: ca-caberlink-sd-mcp-next.wonderfulfield-3f700329.eastus.azurecontainerapps.io
+MCP URL: https://ca-caberlink-sd-mcp-next.wonderfulfield-3f700329.eastus.azurecontainerapps.io/mcp
+Healthy Revision: ca-caberlink-sd-mcp-next--0000001
