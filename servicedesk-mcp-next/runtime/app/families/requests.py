@@ -21,6 +21,31 @@ async def update_request(request_id: str, payload: dict):
     wrapped_payload = {"request": payload}
     return await client.put(f"/requests/{request_id}", json_body=wrapped_payload)
 
+async def create_request_for_requester_id(subject: str, description: str, requester_id: str):
+    payload = {
+        "subject": subject,
+        "description": description,
+        "requester": {
+            "id": str(requester_id)
+        }
+    }
+    return await create_request(payload)
+
+async def update_request_status(request_id: str, status_id: str):
+    payload = {
+        "status": {
+            "id": str(status_id)
+        }
+    }
+    return await update_request(request_id=request_id, payload=payload)
+
+async def update_request_subject_and_description(request_id: str, subject: str, description: str):
+    payload = {
+        "subject": subject,
+        "description": description
+    }
+    return await update_request(request_id=request_id, payload=payload)
+
 def _extract_users(result: dict) -> list[dict]:
     if isinstance(result, dict):
         if isinstance(result.get("users"), list):

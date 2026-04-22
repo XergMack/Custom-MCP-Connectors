@@ -1,4 +1,4 @@
-from app.core.client import ServiceDeskClient
+﻿from app.core.client import ServiceDeskClient
 
 FAMILY_NAME = "notes"
 
@@ -10,8 +10,9 @@ async def add_request_note(request_id: str, payload: dict):
     client = ServiceDeskClient()
     return await client.post(f"/requests/{request_id}/notes", json_body=payload)
 
-def register_tools():
-    return [
-        "list_request_notes",
-        "add_request_note",
-    ]
+async def add_request_note_simple(request_id: str, description: str, show_to_requester: bool = False):
+    payload = {
+        "description": description,
+        "show_to_requester": bool(show_to_requester)
+    }
+    return await add_request_note(request_id=request_id, payload=payload)

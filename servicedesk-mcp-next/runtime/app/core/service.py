@@ -33,11 +33,38 @@ class Service:
             requester_name=requester_name,
         )
 
+    async def create_request_for_requester_id(self, subject: str, description: str, requester_id: str):
+        return await requests_family.create_request_for_requester_id(
+            subject=subject,
+            description=description,
+            requester_id=requester_id,
+        )
+
+    async def update_request_status(self, request_id: str, status_id: str):
+        return await requests_family.update_request_status(
+            request_id=request_id,
+            status_id=status_id,
+        )
+
+    async def update_request_subject_and_description(self, request_id: str, subject: str, description: str):
+        return await requests_family.update_request_subject_and_description(
+            request_id=request_id,
+            subject=subject,
+            description=description,
+        )
+
     async def list_request_notes(self, request_id: str):
         return await notes_family.list_request_notes(request_id=request_id)
 
     async def add_request_note(self, request_id: str, payload: dict):
         return await notes_family.add_request_note(request_id=request_id, payload=payload)
+
+    async def add_request_note_simple(self, request_id: str, description: str, show_to_requester: bool = False):
+        return await notes_family.add_request_note_simple(
+            request_id=request_id,
+            description=description,
+            show_to_requester=show_to_requester,
+        )
 
     async def list_request_worklogs(self, request_id: str):
         return await worklogs_family.list_request_worklogs(request_id=request_id)

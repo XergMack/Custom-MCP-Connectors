@@ -18,3 +18,23 @@ async def handle_create_request_from_context(subject: str, description: str, req
         description=description,
         requester_name=requester_name,
     )
+
+async def handle_create_request_for_requester_id(subject: str, description: str, requester_id: str):
+    return await svc.create_request_for_requester_id(
+        subject=subject,
+        description=description,
+        requester_id=requester_id,
+    )
+
+async def handle_update_request_status(request_id: str, status_id: str):
+    return await svc.update_request_status(
+        request_id=request_id,
+        status_id=status_id,
+    )
+
+async def handle_update_request_subject_and_description(request_id: str, subject: str, description: str):
+    return await svc.update_request_subject_and_description(
+        request_id=request_id,
+        subject=subject,
+        description=description,
+    )
