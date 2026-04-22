@@ -13,11 +13,13 @@ async def get_request(request_id: str):
 
 async def create_request(payload: dict):
     client = ServiceDeskClient()
-    return await client.post("/requests", json_body=payload)
+    wrapped_payload = {"request": payload}
+    return await client.post("/requests", json_body=wrapped_payload)
 
 async def update_request(request_id: str, payload: dict):
     client = ServiceDeskClient()
-    return await client.put(f"/requests/{request_id}", json_body=payload)
+    wrapped_payload = {"request": payload}
+    return await client.put(f"/requests/{request_id}", json_body=wrapped_payload)
 
 def _extract_users(result: dict) -> list[dict]:
     if isinstance(result, dict):
