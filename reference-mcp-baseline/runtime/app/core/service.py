@@ -11,12 +11,16 @@ class GraphContext:
         self.default_site_id = os.environ.get("CABERLINK_SITE_ID", "").strip()
         self.default_drive_id = os.environ.get("CABERLINK_DRIVE_ID", "").strip()
 
-        explicit = os.environ.get("CABERLINK_GRAPH_ACCESS_TOKEN", "").strip()
-        if explicit:
-            self.token = explicit
-        else:
-            cred = DefaultAzureCredential()
-            self.token = cred.get_token("https://graph.microsoft.com/.default").token
+        # Explicit token is retained for local/diagnostic override only.
+        # Production leaves CABERLINK_GRAPH_ACCESS_TOKEN blank and uses managed identity.
+        # Managed-identity Graph tokens expire, so do not cache the bearer token forever.
+        self.explicit_token = os.environ.get("CABERLINK_GRAPH_ACCESS_TOKEN", "").strip()
+        self.credential = None if self.explicit_token else DefaultAzureCredential()
+
+    def get_token(self):
+        if self.explicit_token:
+            return self.explicit_token
+        return self.credential.get_token("https://graph.microsoft.com/.default").token
 
 class Service:
     def __init__(self):
@@ -369,3 +373,4 @@ class Service:
             results.append(row)
 
         return self._summary("bulk_delete_items", results)
+

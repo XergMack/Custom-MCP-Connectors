@@ -6,7 +6,7 @@ class GraphClient:
         self.ctx = ctx
 
     def _auth(self):
-        return {"Authorization": f"Bearer {self.ctx.token}"}
+        return {"Authorization": f"Bearer {self.ctx.get_token()}"}
 
     def _json_headers(self):
         return {**self._auth(), "Content-Type": "application/json"}
@@ -134,3 +134,4 @@ class GraphClient:
         if new_parent_id:
             body["parentReference"] = {"id": new_parent_id}
         return self.http.patch_json(url, self._json_headers(), body)
+
