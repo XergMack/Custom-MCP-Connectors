@@ -1,0 +1,38 @@
+{
+  "schema": "caberlink.amazon-business-mcp.tool-surface.v1",
+  "version": "1.0.0",
+  "scope": "read_only",
+  "apis": {
+    "reporting": "2025-06-09",
+    "product_search": "2020-08-26"
+  },
+  "tools": [
+    "amazon_business_health",
+    "amazon_orders_search",
+    "amazon_order_line_items",
+    "amazon_orders_by_purchase_order",
+    "amazon_shipments_search",
+    "amazon_shipment_line_items",
+    "amazon_products_search",
+    "amazon_products_get"
+  ],
+  "explicitly_absent": [
+    "ordering",
+    "cancel_order",
+    "return_order",
+    "payment_mutation",
+    "account_mutation"
+  ],
+  "secret_inputs": [
+    "AMAZON_BUSINESS_CLIENT_ID",
+    "AMAZON_BUSINESS_CLIENT_SECRET",
+    "AMAZON_BUSINESS_REFRESH_TOKEN"
+  ],
+  "nonsecret_context": [
+    "AMAZON_BUSINESS_USER_EMAIL",
+    "AMAZON_BUSINESS_PRODUCT_REGION",
+    "AMAZON_BUSINESS_LOCALE",
+    "AMAZON_BUSINESS_API_BASE"
+  ],
+  "raw_secret_values_exported": false
+}
